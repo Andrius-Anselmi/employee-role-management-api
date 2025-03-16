@@ -1,6 +1,9 @@
-package dev.java10x.Gerenciamento;
+package dev.java10x.Gerenciamento.Funcionario;
 
+import dev.java10x.Gerenciamento.Cargo.CargoModel;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_funcionario")
@@ -12,6 +15,7 @@ public class FuncionarioModel {
     private String nome;
     private int idade;
     private String cidade;
+    private CargoModel cargos;
 
     public FuncionarioModel() {
     }
