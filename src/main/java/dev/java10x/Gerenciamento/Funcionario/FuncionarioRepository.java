@@ -1,4 +1,4 @@
 package dev.java10x.Gerenciamento.Funcionario;
 
-public class FuncionarioRepository {
+public interface FuncionarioRepository {
 }
