@@ -2,9 +2,15 @@ package dev.java10x.Gerenciamento.Funcionario;
 
 import dev.java10x.Gerenciamento.Cargo.CargoModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "tb_funcionario")
 public class FuncionarioModel {
@@ -20,39 +26,6 @@ public class FuncionarioModel {
     @JoinColumn(name = "cargo_id") //Foreing Key ou chave estrangeira
     @ManyToOne
     private CargoModel cargos;
-
-    public FuncionarioModel() {
-    }
-
-    public FuncionarioModel(int idade, String nome, String cidade) {
-        this.idade = idade;
-        this.nome = nome;
-        this.cidade = cidade;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
 
 
 }
