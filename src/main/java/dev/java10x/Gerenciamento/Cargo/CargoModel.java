@@ -1,6 +1,9 @@
 package dev.java10x.Gerenciamento.Cargo;
 
+import dev.java10x.Gerenciamento.Funcionario.FuncionarioModel;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_cargos")
@@ -13,6 +16,10 @@ public class CargoModel {
     private double salario;
     private String descricao;
     private String nivel;
+
+    //@OneToMany - UM CARGO PODE TER VARIOS FUNCIONARIOS
+    @OneToMany(mappedBy = "cargos")
+    private List<FuncionarioModel> funcionarios;
 
     public CargoModel() {
     }

@@ -15,6 +15,10 @@ public class FuncionarioModel {
     private String nome;
     private int idade;
     private String cidade;
+
+    //@ManyToOne - MUITOS FUNCIONARIOS PODEM TER UM UNICO CARGO
+    @JoinColumn(name = "cargo_id") //Foreing Key ou chave estrangeira
+    @ManyToOne
     private CargoModel cargos;
 
     public FuncionarioModel() {
@@ -49,4 +53,6 @@ public class FuncionarioModel {
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
+
+
 }
