@@ -16,10 +16,19 @@ public class CargoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
+
+    @Column(name = "NOME")
     private String nome;
+
+    @Column(name = "SALARIO")
     private double salario;
+
+    @Column(name = "DESCRICAO")
     private String descricao;
+
+    @Column(name = "NIVEL")
     private String nivel;
 
     //@OneToMany - UM CARGO PODE TER VARIOS FUNCIONARIOS
