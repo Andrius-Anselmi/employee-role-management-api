@@ -29,6 +29,9 @@ public class FuncionarioModel {
     @Column(name = "CIDADE")
     private String cidade;
 
+    @Column(name = "UF")
+    private String uf;
+
     //@ManyToOne - MUITOS FUNCIONARIOS PODEM TER UM UNICO CARGO
     @JoinColumn(name = "cargo_id") //Foreing Key ou chave estrangeira
     @ManyToOne
