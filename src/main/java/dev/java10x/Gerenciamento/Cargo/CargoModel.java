@@ -1,5 +1,6 @@
 package dev.java10x.Gerenciamento.Cargo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.java10x.Gerenciamento.Funcionario.FuncionarioModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class CargoModel {
     private String nivel;
 
     //@OneToMany - UM CARGO PODE TER VARIOS FUNCIONARIOS
+    @JsonIgnore
     @OneToMany(mappedBy = "cargos")
     private List<FuncionarioModel> funcionarios;
 
