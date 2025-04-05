@@ -1,5 +1,6 @@
 package dev.java10x.Gerenciamento.Funcionario;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.java10x.Gerenciamento.Cargo.CargoModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
