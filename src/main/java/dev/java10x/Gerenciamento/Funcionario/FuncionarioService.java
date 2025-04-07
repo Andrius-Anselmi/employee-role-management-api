@@ -15,6 +15,10 @@ public class FuncionarioService {
     }
 
     //CADASTRAR FUNCIONARIO
+    public FuncionarioModel criarFuncionario(FuncionarioModel funcionarioModel) {
+        FuncionarioModel funcionarioCriado = funcionarioRepository.save(funcionarioModel);
+        return funcionarioCriado;
+    }
 
 
     //EXIBIR FUNCIONARIOS

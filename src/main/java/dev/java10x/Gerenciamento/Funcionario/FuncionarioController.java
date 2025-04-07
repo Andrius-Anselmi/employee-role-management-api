@@ -21,9 +21,8 @@ public class FuncionarioController {
 
     //CADASTRAR FUNCIONARIO
     @PostMapping("/cadastro")
-    public String cadastrarFuncionario() {
-
-        return "Cadastrando funcionario";
+    public FuncionarioModel criarFuncionario(@RequestBody FuncionarioModel funcionarioModel) {
+        return funcionarioService.criarFuncionario(funcionarioModel);
     }
     //EXIBIR FUNCIONARIOS
     @GetMapping("/exibir")
