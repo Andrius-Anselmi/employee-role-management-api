@@ -35,15 +35,17 @@ public class FuncionarioController {
     public FuncionarioModel exibirFuncionarioPorId(@PathVariable Long id) {
         return funcionarioService.exibirFuncionariosPorId(id);
     }
-    //ALTERAR FUNCIONARIO POR ID
-    @PutMapping("/alterar/{id}")
-    public String alterarFuncionario(@PathVariable Long id) {
-        return  "a";
-    }
     //DELETAR FUNCIONARIO POR ID
     @DeleteMapping("/deletar/{id}")
     public String deletarFuncionario(@PathVariable Long id) {
         funcionarioService.deletarFuncionarioPorId(id);
         return " funcionario deletado";
     }
+    //ALTERAR FUNCIONARIO POR ID
+    @PutMapping("/alterar/{id}")
+    public FuncionarioModel alterarFuncionario(@PathVariable Long id, @RequestBody FuncionarioModel funcionario) {
+        return funcionarioService.alterarFuncionarioPorId(id,funcionario);
+    }
+
+
 }

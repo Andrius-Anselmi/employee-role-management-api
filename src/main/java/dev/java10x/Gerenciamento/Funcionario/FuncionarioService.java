@@ -34,4 +34,14 @@ public class FuncionarioService {
         funcionarioRepository.deleteById(id);
         return "Funcionario Deletado com sucesso";
     }
+
+    //ALTERAR FUNCIONARIO POR ID
+    public FuncionarioModel alterarFuncionarioPorId(Long id, FuncionarioModel funcionario) {
+        if(funcionarioRepository.existsById(id)) {
+            funcionario.setId(id);
+            return funcionarioRepository.save(funcionario);
+        }
+        return null;
+
+    }
 }
