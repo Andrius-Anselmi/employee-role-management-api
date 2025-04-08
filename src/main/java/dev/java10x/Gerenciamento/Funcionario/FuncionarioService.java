@@ -19,16 +19,19 @@ public class FuncionarioService {
         FuncionarioModel funcionarioCriado = funcionarioRepository.save(funcionarioModel);
         return funcionarioCriado;
     }
-
-
     //EXIBIR FUNCIONARIOS
     public List<FuncionarioModel> exibirFuncionarios() {
         return funcionarioRepository.findAll();
     }
-
     //EXIBIR FUNCIONARIO POR ID
     public FuncionarioModel exibirFuncionariosPorId(Long id) {
         Optional<FuncionarioModel> funcionarioPorId = funcionarioRepository.findById(id);
         return funcionarioPorId.orElse(null);
+    }
+
+    //DELETAR FUNCIONARIO POR ID
+    public String deletarFuncionarioPorId(Long id) {
+        funcionarioRepository.deleteById(id);
+        return "Funcionario Deletado com sucesso";
     }
 }
