@@ -9,15 +9,18 @@ import java.util.Optional;
 public class FuncionarioService {
 
     private FuncionarioRepository funcionarioRepository;
+    private FuncionarioMapper funcionarioMapper;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, FuncionarioMapper funcionarioMapper) {
         this.funcionarioRepository = funcionarioRepository;
+        this.funcionarioMapper = funcionarioMapper;
     }
 
     //CADASTRAR FUNCIONARIO
-    public FuncionarioModel criarFuncionario(FuncionarioModel funcionarioModel) {
-        FuncionarioModel funcionarioCriado = funcionarioRepository.save(funcionarioModel);
-        return funcionarioCriado;
+    public FuncionarioDTO criarFuncionario(FuncionarioDTO funcionarioDTO) {
+        FuncionarioModel funcionarioModel = funcionarioMapper.map(funcionarioDTO);
+        funcionarioModel = funcionarioRepository.save(funcionarioModel);
+        return funcionarioMapper.map(funcionarioModel);
     }
     //EXIBIR FUNCIONARIOS
     public List<FuncionarioModel> exibirFuncionarios() {
