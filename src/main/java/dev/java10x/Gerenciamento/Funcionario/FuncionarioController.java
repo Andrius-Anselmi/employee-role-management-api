@@ -26,24 +26,23 @@ public class FuncionarioController {
     }
     //EXIBIR FUNCIONARIOS
     @GetMapping("/exibir")
-    public List<FuncionarioModel> exibirFuncionarios() {
+    public List<FuncionarioDTO> exibirFuncionarios() {
         return funcionarioService.exibirFuncionarios();
     }
-
     //EXIBIR FUNCIONARIO POR ID
     @GetMapping("/exibir/{id}")
-    public FuncionarioModel exibirFuncionarioPorId(@PathVariable Long id) {
+    public FuncionarioDTO exibirFuncionarioPorId(@PathVariable Long id) {
         return funcionarioService.exibirFuncionariosPorId(id);
     }
     //DELETAR FUNCIONARIO POR ID
     @DeleteMapping("/deletar/{id}")
-    public String deletarFuncionario(@PathVariable Long id) {
+    public void deletarFuncionario(@PathVariable Long id) {
         funcionarioService.deletarFuncionarioPorId(id);
-        return " funcionario deletado";
     }
+
     //ALTERAR FUNCIONARIO POR ID
     @PutMapping("/alterar/{id}")
-    public FuncionarioModel alterarFuncionario(@PathVariable Long id, @RequestBody FuncionarioModel funcionario) {
+    public FuncionarioDTO alterarFuncionario(@PathVariable Long id, @RequestBody FuncionarioDTO funcionario) {
         return funcionarioService.alterarFuncionarioPorId(id,funcionario);
     }
 
