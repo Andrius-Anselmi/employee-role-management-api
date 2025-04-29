@@ -77,7 +77,7 @@ Gerenciamento/
 └── README.md
 ```
 
-## 🔮 Melhorias Futuras
+## 🧩 Implementações Futuras
 
 - **Containerização com Docker:** Facilitar a execução e o deploy da aplicação.
 - **Integração com Swagger:** Documentar automaticamente os endpoints da API.
