@@ -29,6 +29,9 @@ public class FuncionarioModel {
     @Column(name = "IDADE")
     private int idade;
 
+    @Column(name = "UF")
+    private String uf;
+
     @Column(name = "CIDADE")
     private String cidade;
 
