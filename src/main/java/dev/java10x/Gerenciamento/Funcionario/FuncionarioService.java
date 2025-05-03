@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 @Service
 public class FuncionarioService {
 
-    private FuncionarioRepository funcionarioRepository;
-    private FuncionarioMapper funcionarioMapper;
+    private final FuncionarioRepository funcionarioRepository;
+    private final FuncionarioMapper funcionarioMapper;
 
     public FuncionarioService(FuncionarioRepository funcionarioRepository, FuncionarioMapper funcionarioMapper) {
         this.funcionarioRepository = funcionarioRepository;
@@ -41,8 +41,6 @@ public class FuncionarioService {
     //DELETAR FUNCIONARIO POR ID
     public void deletarFuncionarioPorId(Long id) {
         funcionarioRepository.deleteById(id);
-
-
     }
 
     //ALTERAR FUNCIONARIO POR ID
@@ -55,8 +53,6 @@ public class FuncionarioService {
             return funcionarioMapper.map(funcionarioSalvo);
         }
         return null;
-
-
     }
 
 
