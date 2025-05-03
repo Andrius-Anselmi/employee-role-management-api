@@ -122,9 +122,11 @@ Desenvolver uma interface web para que o usuário possa gerenciar funcionários 
 
 ## 👨‍💻 Autor
 
-**Andrius Anselmi**  
-🎓 Estudante de Ciência da Computação  
-🔗 [GitHub](https://github.com/Andrius-Anselmi)
+**Desenvolvido por [Andrius Anselmi](https://github.com/Andrius-Anselmi)**
+
+🧑‍💼 **Desenvolvedor Back-end**
+
+🔗 **GitHub**: [https://github.com/Andrius-Anselmi](https://github.com/Andrius-Anselmi)
 
 ---
 
