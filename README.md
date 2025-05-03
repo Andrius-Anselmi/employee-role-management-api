@@ -105,6 +105,21 @@ A aplicação estará disponível em: `http://localhost:8080`
 
 ---
 
+## 🔧 Melhorias e próximos passos
+🛡️ Tratamento de exceções robusto
+Centralizar e personalizar o tratamento de erros no back-end (ex: @ControllerAdvice e @ExceptionHandler no Spring Boot).
+
+📦 Dockerizar a aplicação
+Criar um Dockerfile para o app e um docker-compose.yml para subir app + MySQL como containers integrados.
+
+📚 Documentar API com Swagger
+Usar springdoc-openapi para gerar uma interface Swagger que mostra e testa todos os endpoints.
+
+🌐 Criar um front-end
+Desenvolver uma interface web para que o usuário possa gerenciar funcionários e cargos de forma visual, conectada à API via HTTP.
+
+---
+
 ## 👨‍💻 Autor
 
 **Andrius Anselmi**  
