@@ -1,0 +1,35 @@
+<!
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Tabela</title>
+</head>
+<body>
+<h1>Lista de Funcionarios</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>UF</th>
+            <th>Cidade</th>
+            <th>Cargo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "funcionario: ${funcionarios}">
+        <td th:text="${funcionario.id}"></td>
+        <td th:text="${funcionario.nome}"></td>
+        <td th:text="${funcionario.idade}"></td>
+        <td th:text="${funcionario.uf}"></td>
+        <td th:text="${funcionario.cidade}"></td>
+
+
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>
