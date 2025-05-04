@@ -1,3 +1,4 @@
+
 # 🧑‍💼 Sistema de Gerenciamento de Funcionários e Cargos
 
 [![Java](https://img.shields.io/badge/Java-17-blue?logo=java)](https://www.oracle.com/java/)
@@ -16,16 +17,28 @@ Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no 
 ├── 📂 src
 │   └── 📂 main
 │       ├── 📂 java
-│       │   └── 📂 com.exemplo.gerenciamento
-│       │       ├── 📂 controller        # Camada REST (endpoints)
-│       │       ├── 📂 model             # Entidades JPA
-│       │       ├── 📂 repository        # Interfaces de persistência
-│       │       ├── 📂 service           # Regras de negócio
-│       │       └── 📄 GerenciamentoApplication.java
+│       │   └── 📂 com.andrius.Gerenciamento
+│       │       ├── 📂 Cargo
+│       │       │   ├── CargoController.java
+│       │       │   ├── CargoModel.java
+│       │       │   ├── CargoRepository.java
+│       │       ├── ├── FuncionarioDTO.java
+│       │       │   └── CargoService.java
+│       │       ├── 📂 Funcionario
+│       │       │   ├── FuncionarioController.java
+│       │       │   ├── FuncionarioControllerUI.java
+│       │       │   ├── FuncionarioDTO.java
+│       │       │   ├── FuncionarioMapper.java
+│       │       │   ├── FuncionarioModel.java
+│       │       │   ├── FuncionarioRepository.java
+│       │       │   └── FuncionarioService.java
+│       │       └── GerenciamentoApplication.java
 │       └── 📂 resources
-│           ├── 📄 application.properties
-│           └── 📄 data.sql (opcional)
+│           └── 📄 application.properties
+├── 📂 test
+├── 📂 target
 ├── 📄 pom.xml
+├── 📄 README.md
 ```
 
 ---
@@ -79,6 +92,8 @@ A aplicação estará disponível em: `http://localhost:8080`
 
 ---
 
+## 📡 Endpoints Principais
+
 | Método | Endpoint                     | Descrição                            |
 | ------ | ---------------------------- | ------------------------------------ |
 | GET    | `/funcionarios/exibir`       | Listar todos os funcionários         |
@@ -92,8 +107,6 @@ A aplicação estará disponível em: `http://localhost:8080`
 | PUT    | `/cargos/alterar/{id}`       | Atualizar os dados de um cargo       |
 | DELETE | `/cargos/deletar/{id}`       | Remover um cargo                     |
 
-
-
 ---
 
 ## 🎯 Objetivo do Projeto
@@ -106,17 +119,11 @@ A aplicação estará disponível em: `http://localhost:8080`
 ---
 
 ## 🔧 Melhorias e próximos passos
-🛡️ Tratamento de exceções robusto
-Centralizar e personalizar o tratamento de erros no back-end (ex: @ControllerAdvice e @ExceptionHandler no Spring Boot).
 
-📦 Dockerizar a aplicação
-Criar um Dockerfile para o app e um docker-compose.yml para subir app + MySQL como containers integrados.
-
-📚 Documentar API com Swagger
-Usar springdoc-openapi para gerar uma interface Swagger que mostra e testa todos os endpoints.
-
-🌐 Criar um front-end
-Desenvolver uma interface web para que o usuário possa gerenciar funcionários e cargos de forma visual, conectada à API via HTTP.
+- 🛡️ **Tratamento de exceções robusto**: Centralizar e personalizar o tratamento de erros com `@ControllerAdvice` e `@ExceptionHandler`
+- 📦 **Dockerizar a aplicação**: Criar Dockerfile e `docker-compose.yml` com MySQL integrado
+- 📚 **Documentar API com Swagger**: Usar springdoc-openapi para gerar uma interface Swagger
+- 🌐 **Criar um front-end**: Desenvolver interface visual para consumir a API
 
 ---
 
