@@ -22,7 +22,6 @@ Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no 
 │       │       │   ├── CargoController.java
 │       │       │   ├── CargoModel.java
 │       │       │   ├── CargoRepository.java
-│       │       ├── ├── FuncionarioDTO.java
 │       │       │   └── CargoService.java
 │       │       ├── 📂 Funcionario
 │       │       │   ├── FuncionarioController.java
