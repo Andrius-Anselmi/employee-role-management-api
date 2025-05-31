@@ -39,5 +39,5 @@ public class FuncionarioModel {
     //@ManyToOne - MUITOS FUNCIONARIOS PODEM TER UM UNICO CARGO
     @JoinColumn(name = "cargo_id") //Foreing Key ou chave estrangeira
     @ManyToOne
-    private CargoModel cargos;
+    private CargoModel cargo;
 }

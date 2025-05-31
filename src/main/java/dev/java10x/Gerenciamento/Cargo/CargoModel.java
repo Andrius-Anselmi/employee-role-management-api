@@ -36,7 +36,7 @@ public class CargoModel {
 
     //@OneToMany - UM CARGO PODE TER VARIOS FUNCIONARIOS
     @JsonIgnore
-    @OneToMany(mappedBy = "cargos")
+    @OneToMany(mappedBy = "cargo")
     private List<FuncionarioModel> funcionarios;
 
 
