@@ -8,31 +8,44 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class CargoService {
 
     private final CargoRepository cargoRepository;
+    private CargoMapper cargoMapper;
 
     public CargoService(CargoRepository cargoRepository) {
         this.cargoRepository = cargoRepository;
     }
 
+    public CargoService(CargoRepository cargoRepository, CargoMapper cargoMapper) {
+        this.cargoRepository = cargoRepository;
+        this.cargoMapper = cargoMapper;
+    }
+
     //CRIAR CARGO
     @PostMapping("cadastro")
-    public CargoModel cadastrarCargo(CargoModel cargo){
-        CargoModel cargoCriado = cargoRepository.save(cargo);
-        return cargoCriado;
+    public CargoDTO cadastrarCargo(CargoDTO cargoDTO){
+        CargoModel cargoSalvo = cargoMapper.map(cargoDTO);
+        cargoSalvo = cargoRepository.save(cargoSalvo);
+        return cargoMapper.map(cargoSalvo);
     }
+
     //EXIBIR CARGOS
     @GetMapping("exibir")
-    public List<CargoModel> exibirCargos(){
-        return  cargoRepository.findAll();
+    public List<CargoDTO> exibirCargos(){
+        List<CargoModel> listaDeCargos  = cargoRepository.findAll();
+        return listaDeCargos.stream()
+                .map(cargoMapper::map).collect(Collectors.toList());
     }
+
     //EXIBIR CARGO POR ID
     @GetMapping("exibir/{id}")
-    public CargoModel exibirPorId(Long id){
+    public CargoDTO exibirPorId(Long id){
         Optional<CargoModel> cargoBuscado = cargoRepository.findById(id);
-        return cargoBuscado.orElse(null);// ou retorna o cargo ou retorna null
+        return cargoBuscado.map(cargoMapper::map).orElse(null);
     }
 
     //DELETAR CARGO POR ID
@@ -43,9 +56,16 @@ public class CargoService {
 
     //ALTERAR CARGO POR ID
     @PutMapping("alterar/{id}")
-    public String alterarCargo(){
-        return "alterando cargo de id";
-    }
+    public CargoDTO alterarCargo(Long id, CargoDTO cargo){
+        Optional<CargoModel> cargoExistente = cargoRepository.findById(id);
+        if(cargoExistente.isPresent()){
+            CargoModel cargoAtualizado = cargoMapper.map(cargo);
+            cargo.setId(id);
+            CargoModel cargoSalvo = cargoRepository.save(cargoAtualizado);
+            return  cargoMapper.map(cargoSalvo);
+        }
 
+        return null;
+    }
 
 }
