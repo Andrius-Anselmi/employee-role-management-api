@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 
-public class CargoDTO {
+public class CargoDetalhadoDTO {
 
     private Long id;
     private String nome;
