@@ -1,5 +1,10 @@
-package dev.java10x.Gerenciamento.Cargo;
+package dev.java10x.Gerenciamento.Service;
 
+import dev.java10x.Gerenciamento.DTO.CargoDetalhadoDTO;
+import dev.java10x.Gerenciamento.DTO.CargoResumoDTO;
+import dev.java10x.Gerenciamento.Mapper.CargoMapper;
+import dev.java10x.Gerenciamento.Model.CargoModel;
+import dev.java10x.Gerenciamento.Repository.CargoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CargoService {

@@ -1,4 +1,6 @@
-package dev.java10x.Gerenciamento.Funcionario;
+package dev.java10x.Gerenciamento.Controller;
+import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java10x.Gerenciamento.Service.FuncionarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

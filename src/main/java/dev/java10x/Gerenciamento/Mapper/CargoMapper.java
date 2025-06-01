@@ -1,6 +1,8 @@
-package dev.java10x.Gerenciamento.Cargo;
+package dev.java10x.Gerenciamento.Mapper;
 
-import dev.java10x.Gerenciamento.Funcionario.FuncionarioMapper;
+import dev.java10x.Gerenciamento.DTO.CargoDetalhadoDTO;
+import dev.java10x.Gerenciamento.DTO.CargoResumoDTO;
+import dev.java10x.Gerenciamento.Model.CargoModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

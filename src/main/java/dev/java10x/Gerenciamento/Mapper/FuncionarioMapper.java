@@ -1,5 +1,7 @@
-package dev.java10x.Gerenciamento.Funcionario;
+package dev.java10x.Gerenciamento.Mapper;
 
+import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java10x.Gerenciamento.Model.FuncionarioModel;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +14,7 @@ public class FuncionarioMapper {
         funcionarioModel.setNome(funcionarioDTO.getNome());
         funcionarioModel.setIdade(funcionarioDTO.getIdade());
         funcionarioModel.setCidade(funcionarioDTO.getCidade());
-        funcionarioModel.setCargos(funcionarioDTO.getCargos());
+        funcionarioModel.setCargo(funcionarioDTO.getCargos());
         funcionarioModel.setUf(funcionarioDTO.getUf());
 
         return funcionarioModel;
@@ -24,7 +26,7 @@ public class FuncionarioMapper {
         funcionarioDTO.setNome(funcionarioModel.getNome());
         funcionarioDTO.setIdade(funcionarioModel.getIdade());
         funcionarioDTO.setCidade(funcionarioModel.getCidade());
-        funcionarioDTO.setCargos(funcionarioModel.getCargos());
+        funcionarioDTO.setCargos(funcionarioModel.getCargo());
         funcionarioDTO.setUf(funcionarioModel.getUf());
 
         return funcionarioDTO;

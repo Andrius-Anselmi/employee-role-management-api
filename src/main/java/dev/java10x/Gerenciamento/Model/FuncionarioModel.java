@@ -1,14 +1,10 @@
-package dev.java10x.Gerenciamento.Funcionario;
+package dev.java10x.Gerenciamento.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.java10x.Gerenciamento.Cargo.CargoModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

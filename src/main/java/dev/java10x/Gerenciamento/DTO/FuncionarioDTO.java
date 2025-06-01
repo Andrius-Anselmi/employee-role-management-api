@@ -1,5 +1,5 @@
-package dev.java10x.Gerenciamento.Funcionario;
-import dev.java10x.Gerenciamento.Cargo.CargoModel;
+package dev.java10x.Gerenciamento.DTO;
+import dev.java10x.Gerenciamento.Model.CargoModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
