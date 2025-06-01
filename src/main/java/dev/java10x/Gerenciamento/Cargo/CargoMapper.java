@@ -46,6 +46,7 @@ import java.util.Collections;
 
         public CargoResumoDTO mapResumo(CargoModel cargoModel) {
             CargoResumoDTO cargoResumoDTO = new CargoResumoDTO();
+            cargoResumoDTO.setNome(cargoModel.getNome());
             cargoResumoDTO.setId(cargoModel.getId());
             cargoResumoDTO.setDescricao(cargoModel.getDescricao());
             cargoResumoDTO.setNivel(cargoModel.getNivel());
