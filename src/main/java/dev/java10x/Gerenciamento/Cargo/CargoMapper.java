@@ -3,8 +3,9 @@ package dev.java10x.Gerenciamento.Cargo;
 import dev.java10x.Gerenciamento.Funcionario.FuncionarioMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-    @Component
+import java.util.Collections;
+
+@Component
     public class CargoMapper {
 
         private FuncionarioMapper funcionarioMapper;
@@ -13,30 +14,45 @@ import java.util.List;
             this.funcionarioMapper = funcionarioMapper;
         }
 
-        public  CargoModel map(CargoDTO cargoDTO) {
+        public CargoModel map(CargoDetalhadoDTO cargoDetalhadoDTO) {
 
             CargoModel cargoModel = new CargoModel();
-            cargoModel.setId(cargoDTO.getId());
-            cargoModel.setNome(cargoDTO.getNome());
-            cargoModel.setDescricao(cargoDTO.getDescricao());
-            cargoModel.setSalario(cargoDTO.getSalario());
-            cargoModel.setNivel(cargoDTO.getNivel());
-            cargoModel.setFuncionarios(cargoDTO.getFuncionarios().stream().map(funcionarioMapper::map).toList());
+            cargoModel.setId(cargoDetalhadoDTO.getId());
+            cargoModel.setNome(cargoDetalhadoDTO.getNome());
+            cargoModel.setDescricao(cargoDetalhadoDTO.getDescricao());
+            cargoModel.setSalario(cargoDetalhadoDTO.getSalario());
+            cargoModel.setNivel(cargoDetalhadoDTO.getNivel());
+            cargoModel.setFuncionarios(cargoDetalhadoDTO.getFuncionarios().stream().map(funcionarioMapper::map).toList());
 
             return cargoModel;
         }
 
-        public CargoDTO map(CargoModel cargoModel) {
+        public CargoDetalhadoDTO map(CargoModel cargoModel) {
 
-            CargoDTO cargoDTO = new CargoDTO();
-            cargoDTO.setId(cargoModel.getId());
-            cargoDTO.setNome(cargoModel.getNome());
-            cargoDTO.setDescricao(cargoModel.getDescricao());
-            cargoDTO.setNivel(cargoDTO.getDescricao());
-            cargoDTO.setSalario(cargoDTO.getSalario());
-            cargoDTO.setFuncionarios(cargoModel.getFuncionarios().stream().map(funcionarioMapper::map).toList());
+            CargoDetalhadoDTO cargoDetalhadoDTO = new CargoDetalhadoDTO();
+            cargoDetalhadoDTO.setId(cargoModel.getId());
+            cargoDetalhadoDTO.setNome(cargoModel.getNome());
+            cargoDetalhadoDTO.setDescricao(cargoModel.getDescricao());
+            cargoDetalhadoDTO.setNivel(cargoModel.getNivel());
+            cargoDetalhadoDTO.setSalario(cargoModel.getSalario());
+            if (cargoModel.getFuncionarios() != null) {
+                cargoDetalhadoDTO.setFuncionarios(cargoModel.getFuncionarios().stream().map(funcionarioMapper::map).toList());
+            } else {
+                cargoDetalhadoDTO.setFuncionarios(Collections.emptyList());
+            }
 
-            return cargoDTO;
+            return cargoDetalhadoDTO;
         }
+
+        public CargoResumoDTO mapResumo(CargoModel cargoModel) {
+            CargoResumoDTO cargoResumoDTO = new CargoResumoDTO();
+            cargoResumoDTO.setId(cargoModel.getId());
+            cargoResumoDTO.setDescricao(cargoModel.getDescricao());
+            cargoResumoDTO.setNivel(cargoModel.getNivel());
+            cargoResumoDTO.setSalario(cargoModel.getSalario());
+
+            return cargoResumoDTO;
+        }
+
     }
 
