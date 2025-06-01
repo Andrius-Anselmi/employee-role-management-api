@@ -1,5 +1,4 @@
 package dev.java10x.Gerenciamento.Cargo;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class CargoController {
 
-    private final CargoService cargoService;
+    private CargoService cargoService;
 
     public CargoController(CargoService cargoService) {
         this.cargoService = cargoService;
@@ -17,31 +16,37 @@ public class CargoController {
 
     //CRIAR CARGO
     @PostMapping("cadastro")
-    public CargoModel cadastrarCargo(@RequestBody CargoModel cargoCriado){
+    public CargoDetalhadoDTO cadastrarCargo(@RequestBody CargoDetalhadoDTO cargoCriado) {
         return cargoService.cadastrarCargo(cargoCriado);
     }
+
     //EXIBIR CARGO
     @GetMapping("exibir")
-    public List<CargoModel> exibirCargos(){
-        return  cargoService.exibirCargos();
-    }
-    //EXIBIR CARGO POR ID
-    @GetMapping("exibir/{id}")
-    public CargoModel exibirPorId(@PathVariable Long id){
-        return cargoService.exibirPorId(id);
+    public List<CargoResumoDTO> exibirCargos() {
+        return cargoService.exibirCargos();
     }
 
+    //EXIBIR CARGO POR ID
+    @GetMapping("exibir/{id}")
+    public CargoDetalhadoDTO exibirPorId(@PathVariable Long id) {
+        if (cargoService.exibirPorId(id) != null) {
+            return cargoService.exibirPorId(id);
+        } else
+            return null;
+    }
     //DELETAR CARGO POR ID
     @DeleteMapping("deletar/{id}")
-    public void deletar(@PathVariable Long id){
+    public void deletar(@PathVariable Long id) {
         cargoService.deletar(id);
     }
 
     //ALTERAR CARGO POR ID
     @PutMapping("alterar/{id}")
-    public String alterarCargo(){
-        return "alterando cargo de id";
-    }
-
-
+    public CargoDetalhadoDTO alterarCargo(@RequestBody CargoDetalhadoDTO cargo, @PathVariable Long id) {
+        if(cargoService.exibirPorId(id) != null){
+            cargoService.alterarCargo(id,cargo);
+        }
+        return null;
 }
+        }
+
