@@ -4,6 +4,7 @@ import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
 import dev.java10x.Gerenciamento.Mapper.FuncionarioMapper;
 import dev.java10x.Gerenciamento.Model.FuncionarioModel;
 import dev.java10x.Gerenciamento.Repository.FuncionarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,15 +12,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
     private final FuncionarioMapper funcionarioMapper;
-
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, FuncionarioMapper funcionarioMapper) {
-        this.funcionarioRepository = funcionarioRepository;
-        this.funcionarioMapper = funcionarioMapper;
-    }
 
     //CADASTRAR FUNCIONARIO
     public FuncionarioDTO criarFuncionario(FuncionarioDTO funcionarioDTO) {
