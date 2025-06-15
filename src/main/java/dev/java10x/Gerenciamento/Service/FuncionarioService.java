@@ -1,7 +1,5 @@
 package dev.java10x.Gerenciamento.Service;
 
-import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
-import dev.java10x.Gerenciamento.Mapper.FuncionarioMapper;
 import dev.java10x.Gerenciamento.Model.FuncionarioModel;
 import dev.java10x.Gerenciamento.Repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,34 +7,33 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
-    private final FuncionarioMapper funcionarioMapper;
+
 
     //CADASTRAR FUNCIONARIO
-    public FuncionarioDTO criarFuncionario(FuncionarioDTO funcionarioDTO) {
-        FuncionarioModel funcionario = funcionarioMapper.map(funcionarioDTO);
-        funcionario = funcionarioRepository.save(funcionario);
-        return funcionarioMapper.map(funcionario);
+    public FuncionarioModel criarFuncionario(FuncionarioModel funcionarioDTO) {
+        return funcionarioRepository.save(funcionarioDTO);
     }
 
     //EXIBIR FUNCIONARIOS
-    public List<FuncionarioDTO> exibirFuncionarios() {
-        List<FuncionarioModel> listaFuncionarios = funcionarioRepository.findAll();
-        return listaFuncionarios.stream()
-                .map(funcionarioMapper::map)
-                .collect(Collectors.toList());
+    public List<FuncionarioModel> exibirFuncionarios() {
+        return funcionarioRepository.findAll();
     }
 
     //EXIBIR FUNCIONARIO POR ID
-    public FuncionarioDTO exibirFuncionariosPorId(Long id) {
+    public FuncionarioModel exibirFuncionariosPorId(Long id) {
         Optional<FuncionarioModel> funcionarioBuscado = funcionarioRepository.findById(id);
-        return funcionarioBuscado.map(funcionarioMapper::map).orElse(null);
+        if (funcionarioBuscado.isPresent()) {
+            return funcionarioBuscado.get();
+
+        } else
+            return null;
     }
 
     //DELETAR FUNCIONARIO POR ID
@@ -45,17 +42,10 @@ public class FuncionarioService {
     }
 
     //ALTERAR FUNCIONARIO POR ID
-    public FuncionarioDTO alterarFuncionarioPorId(Long id, FuncionarioDTO funcionarioDTO) {
-        Optional<FuncionarioModel> funcionarioExistente = funcionarioRepository.findById(id);
-        if(funcionarioExistente.isPresent()){
-            FuncionarioModel funcionarioAtualizado = funcionarioMapper.map(funcionarioDTO);
-            funcionarioAtualizado.setId(id);
-            FuncionarioModel funcionarioSalvo = funcionarioRepository.save(funcionarioAtualizado);
-            return funcionarioMapper.map(funcionarioSalvo);
+    public void alterarFuncionarioPorId(Long id, FuncionarioModel funcionarioDTO) {
+
         }
-        return null;
-    }
-
 
     }
+
 

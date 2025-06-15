@@ -1,66 +1,51 @@
 package dev.java10x.Gerenciamento.Service;
 
-import dev.java10x.Gerenciamento.DTO.CargoDetalhadoDTO;
-import dev.java10x.Gerenciamento.DTO.CargoResumoDTO;
-import dev.java10x.Gerenciamento.Mapper.CargoMapper;
 import dev.java10x.Gerenciamento.Model.CargoModel;
 import dev.java10x.Gerenciamento.Repository.CargoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CargoService {
 
     private final CargoRepository cargoRepository;
-    private final CargoMapper cargoMapper;
 
     //CRIAR CARGO
 
-    public CargoDetalhadoDTO cadastrarCargo(CargoDetalhadoDTO cargoDetalhadoDTO){
-        CargoModel cargoSalvo = cargoMapper.map(cargoDetalhadoDTO);
-        cargoSalvo = cargoRepository.save(cargoSalvo);
-        return cargoMapper.map(cargoSalvo);
+    public CargoModel cadastrarCargo(CargoModel cargoModel) {
+        return cargoRepository.save(cargoModel);
     }
 
     //EXIBIR CARGOS
 
-    public List<CargoResumoDTO> exibirCargos(){
-        List<CargoModel> listaDeCargos  = cargoRepository.findAll();
-        return listaDeCargos.stream().map(cargoModel -> cargoMapper.mapResumo(cargoModel)).toList();
+    public List<CargoModel> exibirCargos() {
+        return cargoRepository.findAll();
     }
 
     //EXIBIR CARGO POR ID
 
-    public CargoDetalhadoDTO exibirPorId(Long id){
+    public CargoModel exibirPorId(Long id) {
         Optional<CargoModel> cargoBuscado = cargoRepository.findById(id);
-        return cargoBuscado.map(cargoMapper::map).orElse(null);
+        if (cargoBuscado.isPresent()) {
+            return cargoBuscado.get();
+        }
+        return null;
     }
 
     //DELETAR CARGO POR ID
 
-    public void deletar(Long id){
+    public void deletar(Long id) {
         cargoRepository.deleteById(id);
     }
 
     //ALTERAR CARGO POR ID
-    public CargoDetalhadoDTO alterarCargo(Long id, CargoDetalhadoDTO cargo){
-        Optional<CargoModel> cargoExistente = cargoRepository.findById(id);
-        if(cargoExistente.isPresent()){
-            CargoModel cargoAtualizado = cargoMapper.map(cargo);
-            cargo.setId(id);
-            CargoModel cargoSalvo = cargoRepository.save(cargoAtualizado);
-            return cargoMapper.map(cargoSalvo);
-        }
+    public void alterarCargo(Long id, CargoModel cargo) {
 
-        return null;
     }
 
 }
