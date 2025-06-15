@@ -130,8 +130,6 @@ A aplicação estará disponível em: `http://localhost:8080`
 
 **Desenvolvido por [Andrius Anselmi](https://github.com/Andrius-Anselmi)**
 
-🧑‍💼 **Desenvolvedor Back-end**
-
 🔗 **GitHub**: [https://github.com/Andrius-Anselmi](https://github.com/Andrius-Anselmi)
 
 ---
