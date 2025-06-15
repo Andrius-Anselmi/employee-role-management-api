@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,6 +18,8 @@ public class CargoDetalhadoDTO {
     private double salario;
     private String descricao;
     private String nivel;
-    private List<FuncionarioDTO> funcionarios;
+
+
+    private List<FuncionarioDTO> funcionarios = new ArrayList<>();
 
 }

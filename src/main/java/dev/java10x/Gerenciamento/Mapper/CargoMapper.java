@@ -6,6 +6,7 @@ import dev.java10x.Gerenciamento.Model.CargoModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Component
     public class CargoMapper {
@@ -16,18 +17,26 @@ import java.util.Collections;
             this.funcionarioMapper = funcionarioMapper;
         }
 
-        public CargoModel map(CargoDetalhadoDTO cargoDetalhadoDTO) {
+    public CargoModel map(CargoDetalhadoDTO cargoDetalhadoDTO) {
 
-            CargoModel cargoModel = new CargoModel();
-            cargoModel.setId(cargoDetalhadoDTO.getId());
-            cargoModel.setNome(cargoDetalhadoDTO.getNome());
-            cargoModel.setDescricao(cargoDetalhadoDTO.getDescricao());
-            cargoModel.setSalario(cargoDetalhadoDTO.getSalario());
-            cargoModel.setNivel(cargoDetalhadoDTO.getNivel());
-            cargoModel.setFuncionarios(cargoDetalhadoDTO.getFuncionarios().stream().map(funcionarioMapper::map).toList());
+        CargoModel cargoModel = new CargoModel();
+        cargoModel.setId(cargoDetalhadoDTO.getId());
+        cargoModel.setNome(cargoDetalhadoDTO.getNome());
+        cargoModel.setDescricao(cargoDetalhadoDTO.getDescricao());
+        cargoModel.setSalario(cargoDetalhadoDTO.getSalario());
+        cargoModel.setNivel(cargoDetalhadoDTO.getNivel());
 
-            return cargoModel;
-        }
+        // Prevenir NullPointerException garantindo lista não nula
+        cargoModel.setFuncionarios(
+                Optional.ofNullable(cargoDetalhadoDTO.getFuncionarios())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(funcionarioMapper::map)
+                        .toList()
+        );
+
+        return cargoModel;
+    }
 
         public CargoDetalhadoDTO map(CargoModel cargoModel) {
 
