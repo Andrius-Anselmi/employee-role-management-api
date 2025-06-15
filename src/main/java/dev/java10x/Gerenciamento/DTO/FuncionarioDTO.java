@@ -15,6 +15,6 @@ public class FuncionarioDTO {
         private int idade;
         private String cidade;
         private String uf;
-        private CargoModel cargos;
+        private CargoModel cargo;
 
 }

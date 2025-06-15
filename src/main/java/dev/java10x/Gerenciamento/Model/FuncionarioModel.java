@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = "cargos")
+
 @Table(name = "tb_funcionario")
 public class FuncionarioModel {
 

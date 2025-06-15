@@ -14,7 +14,7 @@ public class FuncionarioMapper {
         funcionarioModel.setNome(funcionarioDTO.getNome());
         funcionarioModel.setIdade(funcionarioDTO.getIdade());
         funcionarioModel.setCidade(funcionarioDTO.getCidade());
-        funcionarioModel.setCargo(funcionarioDTO.getCargos());
+        funcionarioModel.setCargo(funcionarioDTO.getCargo());
         funcionarioModel.setUf(funcionarioDTO.getUf());
 
         return funcionarioModel;
@@ -26,7 +26,7 @@ public class FuncionarioMapper {
         funcionarioDTO.setNome(funcionarioModel.getNome());
         funcionarioDTO.setIdade(funcionarioModel.getIdade());
         funcionarioDTO.setCidade(funcionarioModel.getCidade());
-        funcionarioDTO.setCargos(funcionarioModel.getCargo());
+        funcionarioDTO.setCargo(funcionarioModel.getCargo());
         funcionarioDTO.setUf(funcionarioModel.getUf());
 
         return funcionarioDTO;
