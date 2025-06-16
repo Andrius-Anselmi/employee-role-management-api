@@ -6,7 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/Licen%C3%A7a-MIT%20(educacional)-blue)](LICENSE)
 
-Este projeto é uma aplicação Java com **Spring Boot** e **PostgreSQL**, focada no gerenciamento completo de **funcionários** e **cargos**. Inclui operações **CRUD (Create, Read, Update, Delete)** para ambas as entidades, com relacionamento entre elas, aplicando as melhores práticas de desenvolvimento backend.
+Este projeto é uma aplicação **Java** com **Spring Boot** e **PostgreSQL**, focada no gerenciamento de **funcionários** e **cargos**. Implementa operações **CRUD (Create, Read, Delete e Update em desenvolvimento)** para ambas as entidades, com relacionamento entre elas. O objetivo é aplicar boas práticas de desenvolvimento backend, como organização em camadas, uso de DTOs e persistência com JPA.
 
 ---
 
@@ -18,7 +18,7 @@ Este projeto é uma aplicação Java com **Spring Boot** e **PostgreSQL**, focad
 ├── 📁 src  
 │   └── 📁 main  
 │       ├── 📁 java  
-│       │   └── 📁 dev.java10x.Gerenciamento  
+│       │   └── 📁 dev.java.Gerenciamento  
 │       │       ├── 📁 Controller  
 │       │       │   ├── CargoController.java  
 │       │       │   └── FuncionarioController.java  
@@ -60,7 +60,7 @@ Este projeto é uma aplicação Java com **Spring Boot** e **PostgreSQL**, focad
 - 🔐 Spring Data JPA
 - 🐝 Hibernate
 - 📦 Maven
-- 🧪 Postman (ferramenta para testes de API)
+- 🧪 Postman
 
 ---
 
@@ -156,7 +156,7 @@ A aplicação estará disponível em: `http://localhost:8080`
 ## 🔧 Melhorias e próximos passos
 
 - 🛡️ **Tratamento de exceções robusto**: Centralizar e personalizar o tratamento de erros com `@ControllerAdvice` e `@ExceptionHandler`
-- 📦 **Dockerizar a aplicação**: Criar Dockerfile e `docker-compose.yml` com MySQL integrado
+- 📦 **Dockerizar a aplicação**: Criar Dockerfile e `docker-compose.yml` com PostgreSQL integrado
 - 📚 **Documentar API com Swagger**: Usar springdoc-openapi para gerar uma interface Swagger
 - 🌐 **Criar um front-end**: Desenvolver interface visual para consumir a API
 
