@@ -6,7 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/Licen%C3%A7a-MIT%20(educacional)-blue)](LICENSE)
 
-Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no gerenciamento completo de **funcionários** e **cargos**. Inclui operações **CRUD (Create, Read, Update, Delete)** para ambas as entidades, com relacionamento entre elas, aplicando as melhores práticas de desenvolvimento backend.
+Este projeto é uma aplicação Java com **Spring Boot** e **PostgreSQL**, focada no gerenciamento completo de **funcionários** e **cargos**. Inclui operações **CRUD (Create, Read, Update, Delete)** para ambas as entidades, com relacionamento entre elas, aplicando as melhores práticas de desenvolvimento backend.
 
 ---
 
