@@ -3,7 +3,7 @@
 
 [![Java](https://img.shields.io/badge/Java-17-blue?logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen?logo=spring)](https://spring.io/projects/spring-boot)
-[![MySQL](https://img.shields.io/badge/Database-MySQL-blue?logo=mysql)](https://www.mysql.com/)
+[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/Licen%C3%A7a-MIT%20(educacional)-blue)](LICENSE)
 
 Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no gerenciamento completo de **funcionários** e **cargos**. Inclui operações **CRUD (Create, Read, Update, Delete)** para ambas as entidades, com relacionamento entre elas, aplicando as melhores práticas de desenvolvimento backend.
@@ -12,33 +12,43 @@ Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no 
 
 ## 📁 Estrutura do Projeto
 
-```
-📦 gerenciamento
-├── 📂 src
-│   └── 📂 main
-│       ├── 📂 java
-│       │   └── 📂 com.andrius.Gerenciamento
-│       │       ├── 📂 Cargo
-│       │       │   ├── CargoController.java
-│       │       │   ├── CargoModel.java
-│       │       │   ├── CargoRepository.java
-│       │       │   └── CargoService.java
-│       │       ├── 📂 Funcionario
-│       │       │   ├── FuncionarioController.java
-│       │       │   ├── FuncionarioControllerUI.java
-│       │       │   ├── FuncionarioDTO.java
-│       │       │   ├── FuncionarioMapper.java
-│       │       │   ├── FuncionarioModel.java
-│       │       │   ├── FuncionarioRepository.java
-│       │       │   └── FuncionarioService.java
-│       │       └── GerenciamentoApplication.java
-│       └── 📂 resources
-│           └── 📄 application.properties
-├── 📂 test
-├── 📂 target
-├── 📄 pom.xml
-├── 📄 README.md
-```
+📦 employee-role-management-api  
+├── 📁 .idea  
+├── 📁 .mvn  
+├── 📁 src  
+│   └── 📁 main  
+│       ├── 📁 java  
+│       │   └── 📁 dev.java10x.Gerenciamento  
+│       │       ├── 📁 Controller  
+│       │       │   ├── CargoController.java  
+│       │       │   └── FuncionarioController.java  
+│       │       ├── 📁 DTO  
+│       │       │   ├── CargoResumidoDTO.java  
+│       │       │   ├── FuncionarioDTO.java  
+│       │       │   └── FuncionarioResumidoDTO.java  
+│       │       ├── 📁 Mapper  
+│       │       │   ├── CargoMapper.java  
+│       │       │   └── FuncionarioMapper.java  
+│       │       ├── 📁 Model  
+│       │       │   ├── CargoModel.java  
+│       │       │   └── FuncionarioModel.java  
+│       │       ├── 📁 Repository  
+│       │       │   ├── CargoRepository.java  
+│       │       │   └── FuncionarioRepository.java  
+│       │       ├── 📁 Service  
+│       │       │   ├── CargoService.java  
+│       │       │   └── FuncionarioService.java  
+│       │       └── GerenciamentoApplication.java  
+│       └── 📁 resources  
+│           ├── 📁 db.migration  
+│           │   └── V2__Add_uf_tb_funcionario.sql  
+│           ├── 📁 templates  
+│           └── application.properties  
+├── 📁 target  
+├── .env  
+├── .gitattributes  
+└── .gitignore  
+
 
 ---
 
@@ -46,9 +56,11 @@ Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no 
 
 - ☕ **Java 17**
 - 🌱 **Spring Boot 3.x**
-- 🐬 **MySQL**
+- 🐬 **PostgreSQL**
 - 🔐 Spring Data JPA
+- 🐝 Hibernate
 - 📦 Maven
+- 🧪 Postman (ferramenta para testes de API)
 
 ---
 
@@ -57,25 +69,49 @@ Este projeto é uma aplicação Java com **Spring Boot** e **MySQL**, focada no 
 ### 1️⃣ Pré-requisitos
 
 - Java 17 instalado
-- MySQL Server em execução
+- PostgreSQL Server em execução
 - Maven instalado
 
 ### 2️⃣ Configuração do Banco de Dados
 
-Crie um banco de dados no MySQL:
+Crie um banco de dados no PostgreSQL:
 
 ```sql
 CREATE DATABASE gerenciamento_funcionarios;
 ```
+Configure suas variáveis de ambiente (ex: no .env):
+```
+DATABASE_URL=jdbc:postgresql://localhost:5432/gerenciamento_funcionarios
+DATABASE_USERNAME=seu_usuario
+DATABASE_PASSWORD=sua_senha
+```
+
 
 Configure o arquivo `application.properties` com suas credenciais:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/gerenciamento_funcionarios
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
+DATABASE_URL=jdbc:postgresql://localhost:5432/gerenciamento_funcionarios
+DATABASE_USERNAME=seu_usuario
+DATABASE_PASSWORD=sua_senha
+
+```
+O application.properties já está configurado para utilizar essas variáveis:
+```
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DATABASE_USERNAME}
+spring.datasource.password=${DATABASE_PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Configurações do JPA / Hibernate
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+
+# Configuração do Flyway
+spring.flyway.enabled=false
+spring.flyway.baseline-on-migrate=true
+spring.flyway.locations=classpath:db/migration
+
 ```
 
 ### 3️⃣ Executar a Aplicação
@@ -95,16 +131,16 @@ A aplicação estará disponível em: `http://localhost:8080`
 
 | Método | Endpoint                     | Descrição                            |
 | ------ | ---------------------------- | ------------------------------------ |
-| GET    | `/funcionarios/exibir`       | Listar todos os funcionários         |
-| GET    | `/funcionarios/exibir/{id}`  | Buscar funcionário por ID            |
-| POST   | `/funcionarios/cadastro`     | Cadastrar um novo funcionário        |
-| PUT    | `/funcionarios/alterar/{id}` | Atualizar os dados de um funcionário |
-| DELETE | `/funcionarios/deletar/{id}` | Remover um funcionário               |
-| GET    | `/cargos/exibir`             | Listar todos os cargos               |
-| GET    | `/cargos/exibir/{id}`        | Buscar cargo por ID                  |
-| POST   | `/cargos/cadastro`           | Cadastrar um novo cargo              |
-| PUT    | `/cargos/alterar/{id}`       | Atualizar os dados de um cargo       |
-| DELETE | `/cargos/deletar/{id}`       | Remover um cargo                     |
+| GET    | `/api/funcionarios`          | Listar todos os funcionários         |
+| GET    | `/api/funcionarios/{id}`     | Buscar funcionário por ID            |
+| POST   | `/api/funcionarios`          | Cadastrar um novo funcionário        |
+| PUT    | `/api/funcionarios/{id}`     | Atualizar os dados de um funcionário |
+| DELETE | `/api/funcionarios/{id}`     | Remover um funcionário               |
+| GET    | `/api/cargos`                | Listar todos os cargos               |
+| GET    | `/api/cargos/{id}`           | Buscar cargo por ID                  |
+| POST   | `/api/cargos`                | Cadastrar um novo cargo              |
+| PUT    | `/api/cargos/{id}`           | Atualizar os dados de um cargo       |
+| DELETE | `/api/cargos/{id}`           | Remover um cargo                     |
 
 ---
 
