@@ -1,4 +1,6 @@
 package dev.java10x.Gerenciamento.Controller;
+import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java10x.Gerenciamento.DTO.FuncionarioResumidoDTO;
 import dev.java10x.Gerenciamento.Model.FuncionarioModel;
 import dev.java10x.Gerenciamento.Service.FuncionarioService;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +17,17 @@ public class FuncionarioController {
     }
 
     @PostMapping()
-    public FuncionarioModel criarFuncionario(@RequestBody FuncionarioModel funcionarioModel){
+    public FuncionarioDTO criarFuncionario(@RequestBody FuncionarioModel funcionarioModel){
         return funcionarioService.criarFuncionario(funcionarioModel);
     }
 
     @GetMapping()
-    public List<FuncionarioModel> exibirFuncionarios(){
+    public List<FuncionarioResumidoDTO> ListarFuncionarios(){
         return funcionarioService.exibirFuncionarios();
     }
 
     @GetMapping("{id}")
-    public FuncionarioModel exibirPorId(@PathVariable Long id){
+    public FuncionarioDTO ListarPorId(@PathVariable Long id){
         return funcionarioService.exibirFuncionariosPorId(id);
     }
 

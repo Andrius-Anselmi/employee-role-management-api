@@ -1,5 +1,8 @@
 package dev.java10x.Gerenciamento.Service;
 
+import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java10x.Gerenciamento.DTO.FuncionarioResumidoDTO;
+import dev.java10x.Gerenciamento.Mapper.FuncionarioMapper;
 import dev.java10x.Gerenciamento.Model.FuncionarioModel;
 import dev.java10x.Gerenciamento.Repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,30 +11,31 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 
 @Service
 @RequiredArgsConstructor
 public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
+    private final FuncionarioMapper funcionarioMapper;
 
+    public FuncionarioDTO criarFuncionario(FuncionarioModel funcionarioModel) {
+        FuncionarioModel funcionsarioSalvo = funcionarioRepository.save(funcionarioModel);
+        return funcionarioMapper.mapParaFuncionarioDTO(funcionsarioSalvo);
 
-    //CADASTRAR FUNCIONARIO
-    public FuncionarioModel criarFuncionario(FuncionarioModel funcionarioDTO) {
-        return funcionarioRepository.save(funcionarioDTO);
     }
 
-    //EXIBIR FUNCIONARIOS
-    public List<FuncionarioModel> exibirFuncionarios() {
-        return funcionarioRepository.findAll();
+    public List<FuncionarioResumidoDTO> exibirFuncionarios() {
+        List<FuncionarioModel> funcionarios = funcionarioRepository.findAll();
+        return funcionarios.stream().map(funcionarioMapper::mapParaFuncionarioResumidoDTO).collect(toList());
     }
 
-    //EXIBIR FUNCIONARIO POR ID
-    public FuncionarioModel exibirFuncionariosPorId(Long id) {
-        Optional<FuncionarioModel> funcionarioBuscado = funcionarioRepository.findById(id);
-        if (funcionarioBuscado.isPresent()) {
-            return funcionarioBuscado.get();
-
+    public FuncionarioDTO exibirFuncionariosPorId(Long id) {
+        Optional<FuncionarioModel> funcionarioModel = funcionarioRepository.findById(id);
+        if(funcionarioModel.isPresent()){
+            return funcionarioMapper.mapParaFuncionarioDTO(funcionarioModel.get());
         } else
             return null;
     }
