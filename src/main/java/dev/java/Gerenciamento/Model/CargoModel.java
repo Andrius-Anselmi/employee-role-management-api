@@ -1,4 +1,4 @@
-package dev.java10x.Gerenciamento.Model;
+package dev.java.Gerenciamento.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

@@ -1,7 +1,7 @@
-package dev.java10x.Gerenciamento.DTO;
+package dev.java.Gerenciamento.DTO;
 
 
-import dev.java10x.Gerenciamento.Model.CargoModel;
+import dev.java.Gerenciamento.Model.CargoModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

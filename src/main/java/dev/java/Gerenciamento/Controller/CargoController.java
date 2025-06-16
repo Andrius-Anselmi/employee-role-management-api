@@ -1,6 +1,6 @@
-package dev.java10x.Gerenciamento.Controller;
-import dev.java10x.Gerenciamento.Model.CargoModel;
-import dev.java10x.Gerenciamento.Service.CargoService;
+package dev.java.Gerenciamento.Controller;
+import dev.java.Gerenciamento.Model.CargoModel;
+import dev.java.Gerenciamento.Service.CargoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

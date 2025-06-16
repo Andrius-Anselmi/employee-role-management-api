@@ -1,8 +1,8 @@
-package dev.java10x.Gerenciamento.Mapper;
+package dev.java.Gerenciamento.Mapper;
 
-import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
-import dev.java10x.Gerenciamento.DTO.FuncionarioResumidoDTO;
-import dev.java10x.Gerenciamento.Model.FuncionarioModel;
+import dev.java.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java.Gerenciamento.DTO.FuncionarioResumidoDTO;
+import dev.java.Gerenciamento.Model.FuncionarioModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
-package dev.java10x.Gerenciamento.Repository;
+package dev.java.Gerenciamento.Repository;
 
-import dev.java10x.Gerenciamento.Model.FuncionarioModel;
+import dev.java.Gerenciamento.Model.FuncionarioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Long> {

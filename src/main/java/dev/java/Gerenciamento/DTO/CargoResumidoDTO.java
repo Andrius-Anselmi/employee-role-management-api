@@ -1,4 +1,4 @@
-package dev.java10x.Gerenciamento.DTO;
+package dev.java.Gerenciamento.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

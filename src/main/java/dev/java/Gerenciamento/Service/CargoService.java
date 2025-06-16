@@ -1,13 +1,12 @@
-package dev.java10x.Gerenciamento.Service;
+package dev.java.Gerenciamento.Service;
 
-import dev.java10x.Gerenciamento.Model.CargoModel;
-import dev.java10x.Gerenciamento.Repository.CargoRepository;
+import dev.java.Gerenciamento.Model.CargoModel;
+import dev.java.Gerenciamento.Repository.CargoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

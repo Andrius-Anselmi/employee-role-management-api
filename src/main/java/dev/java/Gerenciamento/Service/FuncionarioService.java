@@ -1,10 +1,10 @@
-package dev.java10x.Gerenciamento.Service;
+package dev.java.Gerenciamento.Service;
 
-import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
-import dev.java10x.Gerenciamento.DTO.FuncionarioResumidoDTO;
-import dev.java10x.Gerenciamento.Mapper.FuncionarioMapper;
-import dev.java10x.Gerenciamento.Model.FuncionarioModel;
-import dev.java10x.Gerenciamento.Repository.FuncionarioRepository;
+import dev.java.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java.Gerenciamento.DTO.FuncionarioResumidoDTO;
+import dev.java.Gerenciamento.Mapper.FuncionarioMapper;
+import dev.java.Gerenciamento.Model.FuncionarioModel;
+import dev.java.Gerenciamento.Repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
-
-
 @Service
 @RequiredArgsConstructor
 public class FuncionarioService {
@@ -24,7 +22,6 @@ public class FuncionarioService {
     public FuncionarioDTO criarFuncionario(FuncionarioModel funcionarioModel) {
         FuncionarioModel funcionsarioSalvo = funcionarioRepository.save(funcionarioModel);
         return funcionarioMapper.mapParaFuncionarioDTO(funcionsarioSalvo);
-
     }
 
     public List<FuncionarioResumidoDTO> exibirFuncionarios() {

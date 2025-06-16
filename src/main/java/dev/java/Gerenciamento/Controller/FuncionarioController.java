@@ -1,8 +1,8 @@
-package dev.java10x.Gerenciamento.Controller;
-import dev.java10x.Gerenciamento.DTO.FuncionarioDTO;
-import dev.java10x.Gerenciamento.DTO.FuncionarioResumidoDTO;
-import dev.java10x.Gerenciamento.Model.FuncionarioModel;
-import dev.java10x.Gerenciamento.Service.FuncionarioService;
+package dev.java.Gerenciamento.Controller;
+import dev.java.Gerenciamento.DTO.FuncionarioDTO;
+import dev.java.Gerenciamento.DTO.FuncionarioResumidoDTO;
+import dev.java.Gerenciamento.Model.FuncionarioModel;
+import dev.java.Gerenciamento.Service.FuncionarioService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
