@@ -1,8 +1,7 @@
 package dev.java.Gerenciamento.Controller;
-import dev.java.Gerenciamento.Model.CargoModel;
+import dev.java.Gerenciamento.entity.CargoModel;
 import dev.java.Gerenciamento.Service.CargoService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -16,19 +15,19 @@ public class CargoController {
         this.cargoService = cargoService;
     }
 
-    //CRIAR CARGO
+
     @PostMapping()
     public CargoModel cadastrarCargo(@RequestBody CargoModel cargoCriado) {
         return cargoService.cadastrarCargo(cargoCriado);
     }
 
-    //EXIBIR CARGO
+
     @GetMapping()
     public List<CargoModel> exibirCargos() {
         return cargoService.exibirCargos();
     }
 
-    //EXIBIR CARGO POR ID
+
     @GetMapping("{id}")
     public CargoModel exibirPorId(@PathVariable Long id) {
         if (cargoService.exibirPorId(id) != null) {
@@ -36,13 +35,13 @@ public class CargoController {
         } else
             return null;
     }
-    //DELETAR CARGO POR ID
+
     @DeleteMapping("{id}")
     public void deletar(@PathVariable Long id) {
         cargoService.deletar(id);
     }
 
-    //ALTERAR CARGO POR ID
+
     @PutMapping("{id}")
     public CargoModel alterarCargo(@RequestBody CargoModel cargo, @PathVariable Long id) {
         if(cargoService.exibirPorId(id) != null){

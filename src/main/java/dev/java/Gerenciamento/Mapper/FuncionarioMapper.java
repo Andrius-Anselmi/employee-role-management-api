@@ -1,45 +1,37 @@
 package dev.java.Gerenciamento.Mapper;
 
-import dev.java.Gerenciamento.DTO.FuncionarioDTO;
-import dev.java.Gerenciamento.DTO.FuncionarioResumidoDTO;
-import dev.java.Gerenciamento.Model.FuncionarioModel;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-@RequiredArgsConstructor
-@Component
+import dev.java.Gerenciamento.Controller.Request.FuncionarioRequest;
+import dev.java.Gerenciamento.Controller.Response.FuncionarioResponse;
+import dev.java.Gerenciamento.entity.Funcionario;
+import lombok.experimental.UtilityClass;
+@UtilityClass
+
 public class FuncionarioMapper {
 
-    private final CargoMapper cargoMapper;
-
-    public FuncionarioModel mapParaFuncionarioModel(FuncionarioDTO funcionarioDTO) {
-        FuncionarioModel funcionarioModel = new FuncionarioModel();
-        funcionarioModel.setId(funcionarioDTO.getId());
-        funcionarioModel.setNome(funcionarioDTO.getNome());
-        funcionarioModel.setIdade(funcionarioDTO.getIdade());
-        funcionarioModel.setUf(funcionarioDTO.getUf());
-        funcionarioModel.setCidade(funcionarioDTO.getCidade());
-        funcionarioModel.setCargo(funcionarioDTO.getCargo());
-        return funcionarioModel;
+    public static FuncionarioResponse toResponse(Funcionario response) {
+        return FuncionarioResponse.builder().
+                id(response.getId()).
+                nome(response.getNome()).
+                idade(response.getIdade()).
+                build();
     }
 
-    public FuncionarioDTO mapParaFuncionarioDTO(FuncionarioModel funcionarioModel) {
-        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
-        funcionarioDTO.setId(funcionarioModel.getId());
-        funcionarioDTO.setNome(funcionarioModel.getNome());
-        funcionarioDTO.setIdade(funcionarioModel.getIdade());
-        funcionarioDTO.setUf(funcionarioModel.getUf());
-        funcionarioDTO.setCidade(funcionarioModel.getCidade());
-        funcionarioDTO.setCargo(funcionarioModel.getCargo());
-        return funcionarioDTO;
+    public static Funcionario toModel(FuncionarioRequest request) {
+        return Funcionario.builder().
+                id(request.id()).
+                nome(request.nome()).
+                idade(request.idade()).
+                uf(request.uf()).
+                cidade(request.cidade()).
+                cargo(request.cargo()).
+                build();
+    }
 
     }
 
-    public FuncionarioResumidoDTO mapParaFuncionarioResumidoDTO(FuncionarioModel funcionarioModel) {
-        FuncionarioResumidoDTO funcionarioResumidoDTO = new FuncionarioResumidoDTO();
-        funcionarioResumidoDTO.setNome(funcionarioModel.getNome());
-        funcionarioResumidoDTO.setIdade(funcionarioModel.getIdade());
-        funcionarioResumidoDTO.setCargo(cargoMapper.paraCargoResumidoDTO(funcionarioModel.getCargo()));
-        return funcionarioResumidoDTO;
-    }
-    }
+
+
+
+
+
 

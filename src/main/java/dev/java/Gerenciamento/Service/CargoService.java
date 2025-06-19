@@ -1,6 +1,6 @@
 package dev.java.Gerenciamento.Service;
 
-import dev.java.Gerenciamento.Model.CargoModel;
+import dev.java.Gerenciamento.entity.CargoModel;
 import dev.java.Gerenciamento.Repository.CargoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

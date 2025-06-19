@@ -1,22 +1,21 @@
 package dev.java.Gerenciamento.DTO;
 
-
-import dev.java.Gerenciamento.Model.CargoModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 
 public class FuncionarioDTO {
+
     private Long id;
     private String nome;
     private int idade;
     private String uf;
     private String cidade;
-    private CargoModel cargo;
+    private CargoDTO cargo;
 }

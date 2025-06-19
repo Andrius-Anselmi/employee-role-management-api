@@ -1,9 +1,7 @@
 package dev.java.Gerenciamento.Service;
 
-import dev.java.Gerenciamento.DTO.FuncionarioDTO;
-import dev.java.Gerenciamento.DTO.FuncionarioResumidoDTO;
 import dev.java.Gerenciamento.Mapper.FuncionarioMapper;
-import dev.java.Gerenciamento.Model.FuncionarioModel;
+import dev.java.Gerenciamento.entity.Funcionario;
 import dev.java.Gerenciamento.Repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,41 +9,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
-    private final FuncionarioMapper funcionarioMapper;
 
-    public FuncionarioDTO criarFuncionario(FuncionarioModel funcionarioModel) {
-        FuncionarioModel funcionsarioSalvo = funcionarioRepository.save(funcionarioModel);
-        return funcionarioMapper.mapParaFuncionarioDTO(funcionsarioSalvo);
+    public Funcionario criarFuncionario(Funcionario funcionarioModel) {
+        return funcionarioRepository.save(funcionarioModel);
+
     }
 
-    public List<FuncionarioResumidoDTO> exibirFuncionarios() {
-        List<FuncionarioModel> funcionarios = funcionarioRepository.findAll();
-        return funcionarios.stream().map(funcionarioMapper::mapParaFuncionarioResumidoDTO).collect(toList());
+    public List<Funcionario> exibirFuncionarios() {
+        List<Funcionario> funcionarios = funcionarioRepository.findAll();
+        return funcionarios.stream().toList();
     }
 
-    public FuncionarioDTO exibirFuncionariosPorId(Long id) {
-        Optional<FuncionarioModel> funcionarioModel = funcionarioRepository.findById(id);
-        if(funcionarioModel.isPresent()){
-            return funcionarioMapper.mapParaFuncionarioDTO(funcionarioModel.get());
-        } else
-            return null;
+    public Optional<Funcionario> exibirFuncionariosPorId(Long id) {
+        Optional<Funcionario> funcionarioModel = funcionarioRepository.findById(id);
+        if (funcionarioModel.isPresent()) {
+            return funcionarioModel;
+        }
+        return Optional.empty();
     }
 
-    //DELETAR FUNCIONARIO POR ID
+
     public void deletarFuncionarioPorId(Long id) {
         funcionarioRepository.deleteById(id);
     }
 
-    //ALTERAR FUNCIONARIO POR ID
-    public void alterarFuncionarioPorId(Long id, FuncionarioModel funcionarioDTO) {
-
-        }
+//     FUNCIONARIO POR ID
+//    public void alterarFuncionarioPorId(Long id, FuncionarioModel funcionarioDTO) {
+//
+//        }
 
     }
 

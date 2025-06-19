@@ -1,4 +1,4 @@
-package dev.java.Gerenciamento.Model;
+package dev.java.Gerenciamento.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,9 +8,9 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-
+@Builder
 @Table(name = "tb_funcionario")
-public class FuncionarioModel {
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

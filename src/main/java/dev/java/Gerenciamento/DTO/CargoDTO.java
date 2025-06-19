@@ -1,21 +1,20 @@
 package dev.java.Gerenciamento.DTO;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FuncionarioResumidoDTO {
+@Getter
+@Setter
+
+public class CargoDTO {
 
     private String nome;
-    private int idade;
-    private CargoResumidoDTO cargo;
-
-
+    private String descricao;
+    private double salario;
+    private String nivel;
 
 }

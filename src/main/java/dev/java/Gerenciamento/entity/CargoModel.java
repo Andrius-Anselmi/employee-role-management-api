@@ -1,4 +1,4 @@
-package dev.java.Gerenciamento.Model;
+package dev.java.Gerenciamento.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -34,7 +34,7 @@ public class CargoModel {
     //@OneToMany - UM CARGO PODE TER VARIOS FUNCIONARIOS
     @JsonIgnore
     @OneToMany(mappedBy = "cargo")
-    private List<FuncionarioModel> funcionarios;
+    private List<Funcionario> funcionarios;
 
 
 }
