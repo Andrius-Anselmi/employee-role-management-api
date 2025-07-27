@@ -1,29 +1,36 @@
 package dev.java.Gerenciamento.Mapper;
 
-import dev.java.Gerenciamento.DTO.CargoDTO;
-import dev.java.Gerenciamento.DTO.CargoResumidoDTO;
-import dev.java.Gerenciamento.entity.CargoModel;
+import dev.java.Gerenciamento.DTO.Request.CargoRequest;
+import dev.java.Gerenciamento.DTO.Response.CargoResponse;
+import dev.java.Gerenciamento.entity.Cargo;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-@RequiredArgsConstructor
+
+import java.net.CacheRequest;
+@Builder
 @Component
+@RequiredArgsConstructor
 public class CargoMapper {
-//
-      public CargoResumidoDTO paraCargoResumidoDTO(CargoModel cargoModel) {
-          CargoResumidoDTO cargoResumidoDTO = new CargoResumidoDTO();
-          cargoResumidoDTO.setNome(cargoModel.getNome());
-          cargoResumidoDTO.setDescricao(cargoModel.getDescricao());
-          cargoResumidoDTO.setNivel(cargoModel.getNivel());
-          return cargoResumidoDTO;
+
+    public static Cargo toCargo(CargoRequest request){
+        return Cargo.builder()
+                .nome(request.nome())
+                .descricao(request.descricao())
+                .salario(request.salario())
+                .nivel(request.nivel()).
+                build();
     }
 
-    public CargoDTO paraCargoDTO(CargoModel cargoModel) {
-          CargoDTO cargoDTO = new CargoDTO();
-          cargoDTO.setNome(cargoModel.getNome());
-          cargoDTO.setSalario(cargoModel.getSalario());
-          cargoDTO.setDescricao(cargoModel.getDescricao());
-          cargoDTO.setNivel(cargoModel.getNivel());
-          return cargoDTO;
+    public static CargoResponse toResponse(Cargo cargo){
+        return CargoResponse.builder()
+                .id(cargo.getId())
+                .nome(cargo.getNome())
+                .descricao(cargo.getDescricao())
+                .salario(cargo.getSalario())
+                .nivel(cargo.getNivel()).
+                build();
     }
+
     }
 
