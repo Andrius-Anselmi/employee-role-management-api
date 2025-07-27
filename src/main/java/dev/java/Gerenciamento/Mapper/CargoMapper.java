@@ -5,11 +5,9 @@ import dev.java.Gerenciamento.DTO.Response.CargoResponse;
 import dev.java.Gerenciamento.entity.Cargo;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import java.net.CacheRequest;
+import lombok.experimental.UtilityClass;
 @Builder
-@Component
+@UtilityClass
 @RequiredArgsConstructor
 public class CargoMapper {
 
