@@ -1,7 +1,7 @@
 package dev.java.Gerenciamento.Service;
 
-import dev.java.Gerenciamento.entity.CargoModel;
 import dev.java.Gerenciamento.Repository.CargoRepository;
+import dev.java.Gerenciamento.entity.Cargo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,37 +14,36 @@ public class CargoService {
 
     private final CargoRepository cargoRepository;
 
-    //CRIAR CARGO
 
-    public CargoModel cadastrarCargo(CargoModel cargoModel) {
-        return cargoRepository.save(cargoModel);
+    public Cargo salvar(Cargo cargo) {
+        return cargoRepository.save(cargo);
+    }
+    
+    public List<Cargo> exibirCargos() {
+        return  cargoRepository.findAll();
     }
 
-    //EXIBIR CARGOS
-
-    public List<CargoModel> exibirCargos() {
-        return cargoRepository.findAll();
+    public Optional<Cargo> exibirPorId(Long id) {
+        return cargoRepository.findById(id);
     }
-
-    //EXIBIR CARGO POR ID
-
-    public CargoModel exibirPorId(Long id) {
-        Optional<CargoModel> cargoBuscado = cargoRepository.findById(id);
-        if (cargoBuscado.isPresent()) {
-            return cargoBuscado.get();
-        }
-        return null;
-    }
-
-    //DELETAR CARGO POR ID
 
     public void deletar(Long id) {
         cargoRepository.deleteById(id);
     }
 
-    //ALTERAR CARGO POR ID
-    public void alterarCargo(Long id, CargoModel cargo) {
+    public Optional<Cargo> alterarCargo(Long id, Cargo cargo) {
+        Optional<Cargo> cargoOpt = cargoRepository.findById(id);
+        if(cargoOpt.isPresent()){
+            Cargo cargoSalvo = cargoOpt.get();
+            cargoSalvo.setNome(cargo.getNome());
+            cargoSalvo.setDescricao(cargo.getDescricao());
+            cargoSalvo.setNivel(cargo.getNivel());
+            cargoSalvo.setSalario(cargo.getSalario());
+            cargoRepository.save(cargoSalvo);
+            return Optional.of(cargoSalvo);
 
+        }
+
+        return Optional.empty();
     }
-
 }
