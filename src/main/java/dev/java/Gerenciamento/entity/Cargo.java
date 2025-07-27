@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @ToString
+@Builder
 @Table(name = "cargo")
 public class Cargo {
 
