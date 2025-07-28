@@ -3,12 +3,10 @@ package dev.java.Gerenciamento.Mapper;
 import dev.java.Gerenciamento.DTO.Request.CargoRequest;
 import dev.java.Gerenciamento.DTO.Response.CargoResponse;
 import dev.java.Gerenciamento.entity.Cargo;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
-@Builder
+
 @UtilityClass
-@RequiredArgsConstructor
+
 public class CargoMapper {
 
     public static Cargo toCargo(CargoRequest request){

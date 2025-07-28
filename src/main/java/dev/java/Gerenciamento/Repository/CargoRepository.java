@@ -1,7 +1,7 @@
 package dev.java.Gerenciamento.Repository;
 
-import dev.java.Gerenciamento.entity.CargoModel;
+import dev.java.Gerenciamento.entity.Cargo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CargoRepository extends JpaRepository<CargoModel, Long> {
+public interface CargoRepository extends JpaRepository<Cargo, Long> {
 }
