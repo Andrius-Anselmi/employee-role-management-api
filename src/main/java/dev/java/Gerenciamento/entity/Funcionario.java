@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @Entity
 @Builder
-@Table(name = "tb_funcionario")
+@Table(name = "funcionario")
 public class Funcionario {
 
     @Id
@@ -17,21 +17,25 @@ public class Funcionario {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NOME")
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "IDADE")
+    @Column(name = "idade")
     private int idade;
 
-    @Column(name = "UF")
+    @Column(name = "uf")
     private String uf;
 
-    @Column(name = "CIDADE")
+    @Column(name = "cidade")
     private String cidade;
 
 
-    //@ManyToOne - MUITOS FUNCIONARIOS PODEM TER UM UNICO CARGO
-    @JoinColumn(name = "cargo_id") //Foreing Key ou chave estrangeira
-    @ManyToOne
-    private CargoModel cargo;
+    @ManyToOne()
+    @JoinColumn(name = "cargo_id")
+    private Cargo cargo;
+
+
+
+
+
 }
