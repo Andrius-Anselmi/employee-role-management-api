@@ -1,134 +1,206 @@
-# 🧑‍💼 Enterprise Employee & Role Management System
+<div align="center">
 
-[![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)](https://hibernate.org/)
-[![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+# Employee & Role Management API
 
-## 🚀 Overview
+### A production-grade REST API for organizational structure. Built the right way — layered architecture, zero shortcuts, full DTO encapsulation.
 
-The **Enterprise Employee Management System** is a robust, production-ready RESTful API designed to manage complex organizational structures. Built with **Java 17** and **Spring Boot 3**, the application focuses on high-performance data persistence, strict architectural decoupling, and scalable entity relationships.
+&nbsp;
 
-This project goes beyond simple CRUD operations, implementing professional-grade patterns widely used in large-scale corporate environments.
+Most employee management tutorials stop at CRUD. This one doesn't. Every design decision here — DTOs, service layer isolation, N+1 prevention, Flyway migrations, 12-Factor config — exists because real systems break without them.
 
----
+&nbsp;
 
-## ✨ Features
+[![Java](https://img.shields.io/badge/java-17_LTS-ED8B00?style=flat-square&labelColor=0a0e14&logo=openjdk&logoColor=ED8B00)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/spring_boot-3.x-6DB33F?style=flat-square&labelColor=0a0e14&logo=spring&logoColor=6DB33F)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/postgresql-14+-4169E1?style=flat-square&labelColor=0a0e14&logo=postgresql&logoColor=4169E1)](https://www.postgresql.org/)
+[![Hibernate](https://img.shields.io/badge/hibernate-JPA-59666C?style=flat-square&labelColor=0a0e14&logo=hibernate&logoColor=white)](https://hibernate.org/)
+[![Maven](https://img.shields.io/badge/maven-3.8+-C71A36?style=flat-square&labelColor=0a0e14&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+[![License](https://img.shields.io/badge/license-MIT-b0e8ff?style=flat-square&labelColor=0a0e14)](./LICENSE)
 
-- **Advanced Relationship Mapping:** Seamless handling of One-to-Many relationships between Employees and Roles using JPA/Hibernate
-- **Data Integrity:** Database migrations via SQL/Flyway to ensure schema consistency across environments
-- **Encapsulated Data Flow:** DTOs (Data Transfer Objects) ensure the internal domain model is never exposed to the client
-- **Stateless Architecture:** Designed for horizontal scalability, following REST architectural constraints
-- **Environment Agnostic:** Fully configurable via environment variables, following the **12-Factor App** methodology
+&nbsp;
 
----
+[Quick Start](#quick-start) · [Architecture](#architecture) · [API Reference](#api-reference) · [Design Decisions](#design-decisions)
 
-## 🏗️ Architecture
+&nbsp;
 
-The system is organized into distinct layers to promote the **Single Responsibility Principle (SRP)** and ease of testing:
+| | | |
+|---|---|---|
+| **4 layers** strictly separated | **Zero** domain model leakage to clients | **12-Factor** compliant config |
 
-**API Layer (Controllers)**
-Handles incoming HTTP requests, manages media type negotiation, and returns appropriate RESTful status codes (`201 Created`, `204 No Content`, `404 Not Found`).
-
-**Business Logic Layer (Services)**
-The "brain" of the application. All business rules, validations, and cross-entity logic are centralized here, keeping Controllers thin and Repositories focused.
-
-**Data Access Layer (Repositories)**
-Leverages **Spring Data JPA** for efficient database communication. Implements optimized queries to prevent common performance pitfalls like the N+1 problem.
-
-**Domain Model & DTOs**
-- **Models:** Represent the source of truth in the PostgreSQL database
-- **DTOs:** Customized views of data tailored for specific API responses, reducing payload size and increasing security
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## The Problem
 
-| Component | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Language** | Java 17 (LTS) | Modern features like Records and enhanced Switch expressions for cleaner, maintainable code |
-| **Framework** | Spring Boot 3.x | Industry standard for microservices, with a powerful ecosystem for dependency injection |
-| **Persistence** | Spring Data JPA | Reduces boilerplate while providing a powerful abstraction over the JDBC layer |
-| **Database** | PostgreSQL | Professional-grade relational database known for reliability and complex query support |
-| **Build Tool** | Maven | Robust dependency management and lifecycle automation for predictable builds |
+Building an employee management system is easy. Building one that holds up in production is not.
+
+Most tutorials give you a `@RestController` that talks directly to the database, returns your JPA entity as JSON, and calls it a day. That works until it doesn't — until a lazy-loaded relationship triggers a thousand extra queries, until a refactor breaks the API contract, until someone runs the app on a new machine and the schema is out of sync.
+
+This project is built around the decisions that prevent those failures: a strict four-layer architecture, DTOs that decouple the API contract from the domain model, Flyway for schema migrations that actually version-control your database, and environment-variable-driven config that works the same in development, staging, and production.
 
 ---
 
-## 📡 API Endpoints
+## Quick Start
 
-### 📋 Employee Resources
-
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/funcionarios` | Retrieve all employees with detailed role information |
-| `GET` | `/api/funcionarios/{id}` | Fetch a specific employee by their unique identifier |
-| `POST` | `/api/funcionarios` | Create a new employee record with DTO validation |
-| `PUT` | `/api/funcionarios/{id}` | Update existing employee details (Idempotent) |
-| `DELETE` | `/api/funcionarios/{id}` | Safely remove an employee from the system |
-
-### 🎭 Role Resources
-
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/cargos` | List all available corporate roles |
-| `POST` | `/api/cargos` | Register a new role within the organization |
-
----
-
-## ⚙️ Getting Started
-
-### Prerequisites
-
-- JDK 17 or higher
-- Maven 3.8+
-- PostgreSQL 14+
-
-### Step-by-Step Setup
-
-**1. Clone the repository**
+**Prerequisites:** JDK 17+, Maven 3.8+, PostgreSQL 14+
 
 ```bash
 git clone https://github.com/Andrius-Anselmi/employee-role-management-api.git
 cd employee-role-management-api
 ```
 
-**2. Create the database**
-
-Access your PostgreSQL instance (via pgAdmin, DBeaver, or psql) and run:
+Create the database:
 
 ```sql
-CREATE DATABASE gerenciamento_funcionarios;
+CREATE DATABASE employee_management;
 ```
 
-**3. Set environment variables**
+Set environment variables:
 
 ```bash
-export DATABASE_URL=jdbc:postgresql://localhost:5432/gerenciamento_funcionarios
+export DATABASE_URL=jdbc:postgresql://localhost:5432/employee_management
 export DATABASE_USERNAME=your_db_user
 export DATABASE_PASSWORD=your_db_password
 ```
 
-**4. Build and run**
+Build and run:
 
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
 
-The application will be available at `http://localhost:8080`.
+API available at `http://localhost:8080`. No manual schema setup needed — Flyway runs migrations automatically on startup.
 
 ---
 
-## 👨‍💻 Developed By
+## Architecture
 
-**Andrius Anselmi** — Computer Science Student & Aspiring Software Architect
+Four layers. Each one knows nothing about the others except the interface it depends on.
 
-- GitHub: [@Andrius-Anselmi](https://github.com/Andrius-Anselmi)
-- LinkedIn: [Andrius Anselmi](https://www.linkedin.com/in/andrius-anselmi)
+```
+  HTTP Request
+       │
+       ▼
+┌─────────────────────────────────────────────┐
+│  Controller Layer                           │
+│  Handles HTTP, status codes, routing        │
+│  Returns DTOs — never domain models         │
+└────────────────────┬────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│  Service Layer                              │
+│  All business rules live here               │
+│  Validates, orchestrates, transforms        │
+└────────────────────┬────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│  Repository Layer                           │
+│  Spring Data JPA — optimized queries        │
+│  N+1 prevention via JOIN FETCH              │
+└────────────────────┬────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│  Domain Model + PostgreSQL                  │
+│  Source of truth — never exposed directly   │
+│  Schema managed by Flyway migrations        │
+└─────────────────────────────────────────────┘
+```
+
+**Controllers** are thin. They receive a request, call a service, and return a response. No business logic.
+
+**Services** are the brain. Every validation, every rule, every cross-entity operation lives here. If it involves a decision, it belongs in the service layer.
+
+**Repositories** talk to the database. Nothing else. Queries are optimized at this layer — JOIN FETCH prevents N+1 on employee-role relationships.
+
+**DTOs** sit between layers. The client never sees a JPA entity. If the domain model changes, the API contract stays stable.
 
 ---
 
-## 📄 License
+## API Reference
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Employees
+
+| Method | Route | Description | Status |
+|--------|-------|-------------|--------|
+| `GET` | `/api/employees` | All employees with role details | `200` |
+| `GET` | `/api/employees/{id}` | Single employee by ID | `200` / `404` |
+| `POST` | `/api/employees` | Create employee with DTO validation | `201` |
+| `PUT` | `/api/employees/{id}` | Full update — idempotent | `200` / `404` |
+| `DELETE` | `/api/employees/{id}` | Remove employee | `204` / `404` |
+
+### Roles
+
+| Method | Route | Description | Status |
+|--------|-------|-------------|--------|
+| `GET` | `/api/roles` | All available roles | `200` |
+| `POST` | `/api/roles` | Register a new role | `201` |
+
+---
+
+## Design Decisions
+
+Every pattern here is a deliberate choice, not boilerplate.
+
+**DTO encapsulation** — JPA entities are never serialized directly into API responses. DTOs give the API a stable contract independent of the database schema. Rename a column, change a relationship — the client never knows.
+
+**N+1 prevention** — A naive `findAll()` on employees triggers one query per employee to load their roles. The repository layer uses `JOIN FETCH` to collapse that into a single query regardless of dataset size.
+
+**Flyway migrations** — Schema changes are version-controlled SQL files. Every environment — local, staging, production — runs the exact same migrations in the exact same order. No more "works on my machine" schema drift.
+
+**12-Factor config** — Database URL, username, and password come from environment variables. The same artifact runs in any environment without modification.
+
+**Stateless design** — No session state on the server. Every request carries everything it needs. The API scales horizontally without coordination.
+
+---
+
+## Tech Stack
+
+| Component | Technology | Why |
+|-----------|-----------|-----|
+| Language | Java 17 LTS | Records, pattern matching, long-term support |
+| Framework | Spring Boot 3.x | Industry standard, powerful DI ecosystem |
+| Persistence | Spring Data JPA + Hibernate | Clean abstraction over JDBC, relationship mapping |
+| Database | PostgreSQL 14+ | Reliable, production-proven, complex query support |
+| Migrations | Flyway | Version-controlled schema, environment parity |
+| Build | Maven 3.8+ | Predictable lifecycle, dependency management |
+
+---
+
+## Project Structure
+
+```
+src/
+└── main/
+    └── java/
+        └── com/andrius/employees/
+            ├── controller/     # HTTP layer — routes and status codes
+            ├── service/        # Business logic — rules and validation
+            ├── repository/     # Data access — JPA queries
+            ├── model/          # Domain entities — source of truth
+            └── dto/            # API contracts — what clients see
+    └── resources/
+        └── db/migration/       # Flyway SQL migrations (V1__, V2__...)
+```
+
+---
+
+## Contributing
+
+Issues and PRs welcome. If you're adding a feature, open the service layer first — business logic belongs there, not in controllers or repositories.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
+
+---
+
+<div align="center">
+
+Built by [Andrius Anselmi](https://github.com/Andrius-Anselmi) · [LinkedIn](https://www.linkedin.com/in/andrius-anselmi)
+
+</div>
