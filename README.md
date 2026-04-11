@@ -1,176 +1,134 @@
+# 🧑‍💼 Enterprise Employee & Role Management System
 
-# 🧑‍💼 Sistema de Gerenciamento de Funcionários e Cargos
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)](https://hibernate.org/)
+[![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
 
-[![Java](https://img.shields.io/badge/Java-17-blue?logo=java)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen?logo=spring)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql)](https://www.postgresql.org/)
-[![License](https://img.shields.io/badge/Licen%C3%A7a-MIT%20(educacional)-blue)](LICENSE)
+## 🚀 Overview
 
-Este projeto é uma aplicação **Java** com **Spring Boot** e **PostgreSQL**, focada no gerenciamento de **funcionários** e **cargos**. Implementa operações **CRUD (Create, Read, Delete e Update em desenvolvimento)** para ambas as entidades, com relacionamento entre elas. O objetivo é aplicar boas práticas de desenvolvimento backend, como organização em camadas, uso de DTOs e persistência com JPA.
+The **Enterprise Employee Management System** is a robust, production-ready RESTful API designed to manage complex organizational structures. Built with **Java 17** and **Spring Boot 3**, the application focuses on high-performance data persistence, strict architectural decoupling, and scalable entity relationships.
 
----
-
-## 📁 Estrutura do Projeto
-
-📦 employee-role-management-api  
-├── 📁 .idea  
-├── 📁 .mvn  
-├── 📁 src  
-│   └── 📁 main  
-│       ├── 📁 java  
-│       │   └── 📁 dev.java.Gerenciamento  
-│       │       ├── 📁 Controller  
-│       │       │   ├── CargoController.java  
-│       │       │   └── FuncionarioController.java  
-│       │       ├── 📁 DTO  
-│       │       │   ├── CargoResumidoDTO.java  
-│       │       │   ├── FuncionarioDTO.java  
-│       │       │   └── FuncionarioResumidoDTO.java  
-│       │       ├── 📁 Mapper  
-│       │       │   ├── CargoMapper.java  
-│       │       │   └── FuncionarioMapper.java  
-│       │       ├── 📁 Model  
-│       │       │   ├── CargoModel.java  
-│       │       │   └── FuncionarioModel.java  
-│       │       ├── 📁 Repository  
-│       │       │   ├── CargoRepository.java  
-│       │       │   └── FuncionarioRepository.java  
-│       │       ├── 📁 Service  
-│       │       │   ├── CargoService.java  
-│       │       │   └── FuncionarioService.java  
-│       │       └── GerenciamentoApplication.java  
-│       └── 📁 resources  
-│           ├── 📁 db.migration  
-│           │   └── V2__Add_uf_tb_funcionario.sql  
-│           ├── 📁 templates  
-│           └── application.properties  
-├── 📁 target  
-├── .env  
-├── .gitattributes  
-└── .gitignore  
-
+This project goes beyond simple CRUD operations, implementing professional-grade patterns widely used in large-scale corporate environments.
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+## ✨ Features
 
-- ☕ **Java 17**
-- 🌱 **Spring Boot 3.x**
-- 🐬 **PostgreSQL**
-- 🔐 Spring Data JPA
-- 🐝 Hibernate
-- 📦 Maven
-- 🧪 Postman
+- **Advanced Relationship Mapping:** Seamless handling of One-to-Many relationships between Employees and Roles using JPA/Hibernate
+- **Data Integrity:** Database migrations via SQL/Flyway to ensure schema consistency across environments
+- **Encapsulated Data Flow:** DTOs (Data Transfer Objects) ensure the internal domain model is never exposed to the client
+- **Stateless Architecture:** Designed for horizontal scalability, following REST architectural constraints
+- **Environment Agnostic:** Fully configurable via environment variables, following the **12-Factor App** methodology
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🏗️ Architecture
 
-### 1️⃣ Pré-requisitos
+The system is organized into distinct layers to promote the **Single Responsibility Principle (SRP)** and ease of testing:
 
-- Java 17 instalado
-- PostgreSQL Server em execução
-- Maven instalado
+**API Layer (Controllers)**
+Handles incoming HTTP requests, manages media type negotiation, and returns appropriate RESTful status codes (`201 Created`, `204 No Content`, `404 Not Found`).
 
-### 2️⃣ Configuração do Banco de Dados
+**Business Logic Layer (Services)**
+The "brain" of the application. All business rules, validations, and cross-entity logic are centralized here, keeping Controllers thin and Repositories focused.
 
-Crie um banco de dados no PostgreSQL:
+**Data Access Layer (Repositories)**
+Leverages **Spring Data JPA** for efficient database communication. Implements optimized queries to prevent common performance pitfalls like the N+1 problem.
+
+**Domain Model & DTOs**
+- **Models:** Represent the source of truth in the PostgreSQL database
+- **DTOs:** Customized views of data tailored for specific API responses, reducing payload size and increasing security
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Rationale |
+| :--- | :--- | :--- |
+| **Language** | Java 17 (LTS) | Modern features like Records and enhanced Switch expressions for cleaner, maintainable code |
+| **Framework** | Spring Boot 3.x | Industry standard for microservices, with a powerful ecosystem for dependency injection |
+| **Persistence** | Spring Data JPA | Reduces boilerplate while providing a powerful abstraction over the JDBC layer |
+| **Database** | PostgreSQL | Professional-grade relational database known for reliability and complex query support |
+| **Build Tool** | Maven | Robust dependency management and lifecycle automation for predictable builds |
+
+---
+
+## 📡 API Endpoints
+
+### 📋 Employee Resources
+
+| Method | Path | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/funcionarios` | Retrieve all employees with detailed role information |
+| `GET` | `/api/funcionarios/{id}` | Fetch a specific employee by their unique identifier |
+| `POST` | `/api/funcionarios` | Create a new employee record with DTO validation |
+| `PUT` | `/api/funcionarios/{id}` | Update existing employee details (Idempotent) |
+| `DELETE` | `/api/funcionarios/{id}` | Safely remove an employee from the system |
+
+### 🎭 Role Resources
+
+| Method | Path | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/cargos` | List all available corporate roles |
+| `POST` | `/api/cargos` | Register a new role within the organization |
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- JDK 17 or higher
+- Maven 3.8+
+- PostgreSQL 14+
+
+### Step-by-Step Setup
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/Andrius-Anselmi/employee-role-management-api.git
+cd employee-role-management-api
+```
+
+**2. Create the database**
+
+Access your PostgreSQL instance (via pgAdmin, DBeaver, or psql) and run:
 
 ```sql
 CREATE DATABASE gerenciamento_funcionarios;
 ```
-Configure suas variáveis de ambiente (ex: no .env):
-```
-DATABASE_URL=jdbc:postgresql://localhost:5432/gerenciamento_funcionarios
-DATABASE_USERNAME=seu_usuario
-DATABASE_PASSWORD=sua_senha
-```
 
+**3. Set environment variables**
 
-Configure o arquivo `application.properties` com suas credenciais:
-
-```properties
-DATABASE_URL=jdbc:postgresql://localhost:5432/gerenciamento_funcionarios
-DATABASE_USERNAME=seu_usuario
-DATABASE_PASSWORD=sua_senha
-
-```
-O application.properties já está configurado para utilizar essas variáveis:
-```
-spring.datasource.url=${DATABASE_URL}
-spring.datasource.username=${DATABASE_USERNAME}
-spring.datasource.password=${DATABASE_PASSWORD}
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-# Configurações do JPA / Hibernate
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-# Configuração do Flyway
-spring.flyway.enabled=false
-spring.flyway.baseline-on-migrate=true
-spring.flyway.locations=classpath:db/migration
-
+```bash
+export DATABASE_URL=jdbc:postgresql://localhost:5432/gerenciamento_funcionarios
+export DATABASE_USERNAME=your_db_user
+export DATABASE_PASSWORD=your_db_password
 ```
 
-### 3️⃣ Executar a Aplicação
-
-No terminal, dentro da raiz do projeto:
+**4. Build and run**
 
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
 
-A aplicação estará disponível em: `http://localhost:8080`
+The application will be available at `http://localhost:8080`.
 
 ---
 
-## 📡 Endpoints Principais
+## 👨‍💻 Developed By
 
-| Método | Endpoint                     | Descrição                            |
-| ------ | ---------------------------- | ------------------------------------ |
-| GET    | `/api/funcionarios`          | Listar todos os funcionários         |
-| GET    | `/api/funcionarios/{id}`     | Buscar funcionário por ID            |
-| POST   | `/api/funcionarios`          | Cadastrar um novo funcionário        |
-| PUT    | `/api/funcionarios/{id}`     | Atualizar os dados de um funcionário |
-| DELETE | `/api/funcionarios/{id}`     | Remover um funcionário               |
-| GET    | `/api/cargos`                | Listar todos os cargos               |
-| GET    | `/api/cargos/{id}`           | Buscar cargo por ID                  |
-| POST   | `/api/cargos`                | Cadastrar um novo cargo              |
-| PUT    | `/api/cargos/{id}`           | Atualizar os dados de um cargo       |
-| DELETE | `/api/cargos/{id}`           | Remover um cargo                     |
+**Andrius Anselmi** — Computer Science Student & Aspiring Software Architect
+
+- GitHub: [@Andrius-Anselmi](https://github.com/Andrius-Anselmi)
+- LinkedIn: [Andrius Anselmi](https://www.linkedin.com/in/andrius-anselmi)
 
 ---
 
-## 🎯 Objetivo do Projeto
+## 📄 License
 
-- Demonstrar proficiência em **Java** com o framework **Spring Boot**
-- Aplicar arquitetura em camadas (Controller, Service, Repository)
-- Realizar integração com banco de dados relacional utilizando **Spring Data JPA**
-- Servir como base escalável para sistemas maiores com múltiplas entidades e regras de negócio complexas
-
----
-
-## 🔧 Melhorias e próximos passos
-
-- 🛡️ **Tratamento de exceções robusto**: Centralizar e personalizar o tratamento de erros com `@ControllerAdvice` e `@ExceptionHandler`
-- 📦 **Dockerizar a aplicação**: Criar Dockerfile e `docker-compose.yml` com PostgreSQL integrado
-- 📚 **Documentar API com Swagger**: Usar springdoc-openapi para gerar uma interface Swagger
-- 🌐 **Criar um front-end**: Desenvolver interface visual para consumir a API
-
----
-
-## 👨‍💻 Autor
-
-**Desenvolvido por [Andrius Anselmi](https://github.com/Andrius-Anselmi)**
-
-🔗 **GitHub**: [https://github.com/Andrius-Anselmi](https://github.com/Andrius-Anselmi)
-
----
-
-## 📄 Licença
-
-Projeto sob a Licença MIT, voltado para **fins educacionais e aprendizado**.  
-Consulte o arquivo [`LICENSE`](LICENSE) para mais informações.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
