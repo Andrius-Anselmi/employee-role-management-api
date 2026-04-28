@@ -41,6 +41,9 @@ This project is built around the decisions that prevent those failures: a strict
 
 ---
 
+> ⚠️ **Work in progress:** tests, Docker support, and English 
+> source code refactor are actively being added.
+
 ## Quick Start
 
 **Prerequisites:** JDK 17+, Maven 3.8+, PostgreSQL 14+
