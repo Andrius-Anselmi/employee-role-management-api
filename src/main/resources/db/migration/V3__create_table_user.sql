@@ -1,6 +1,6 @@
 CREATE table users (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR (255) NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR (255) NOT NULL,
     email VARCHAR (255) NOT NULL UNIQUE,
-    senha VARCHAR (255) NOT NULL
+    password VARCHAR (255) NOT NULL
 )
