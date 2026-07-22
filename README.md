@@ -1,9 +1,9 @@
 <div align="center">
 
-# Employee & Role Management API
+# API de Gerenciamento de Funcionários e Cargos
 
-### A production-grade REST API for organizational structure.
-### Built the right way — JWT security, layered architecture, zero shortcuts, full DTO encapsulation.
+### API REST para estrutura organizacional — funcionários, cargos e níveis de senioridade.
+### Arquitetura em camadas, autenticação JWT e DTOs em todo lugar. Sem entidade JPA vazando pra fora.
 
 &nbsp;
 
@@ -19,237 +19,215 @@
 
 &nbsp;
 
-[Quick Start](#quick-start) · [Architecture](#architecture) · [API Reference](#api-reference) · [Security](#security) · [Design Decisions](#design-decisions) · [Roadmap](#roadmap)
-
-&nbsp;
-
-| | | |
-|---|---|---|
-| **4 layers** strictly separated | **JWT** stateless authentication | **12-Factor** compliant config |
-| **Zero** domain model leakage | **Custom exceptions** & global handler | **Flyway** version-controlled schema |
+[Como rodar](#como-rodar) · [Arquitetura](#arquitetura) · [Endpoints](#endpoints) · [Autenticação](#autenticação) · [Por trás das escolhas](#por-trás-das-escolhas) · [O que falta](#o-que-falta)
 
 </div>
 
 ---
 
-> ⚠️ **Work in progress** — core API is stable and functional. Update endpoints and filtering features are actively being developed. See the [Roadmap](#roadmap) for what's coming next.
+> ⚠️ **Em desenvolvimento** — CRUD de funcionários e cargos já funciona de ponta a ponta. Atualização (`PUT`) e filtros ainda estão sendo implementados. Detalhes em [O que falta](#o-que-falta).
 
 ---
 
-## The Problem
+## Por que essa API existe
 
-Building an employee management system is easy. Building one that holds up in production is not.
+Um CRUD de funcionários parece trivial até você tentar manter ele organizado: entidade JPA indo direto na resposta HTTP, sem controle sobre o que o cliente enxerga, sem separação clara entre "regra de negócio" e "código que lida com requisição", schema do banco que não bate entre o ambiente local e o de produção.
 
-Most tutorials give you a `@RestController` that talks directly to the database, returns your JPA entity as JSON, and calls it a day. That works until it doesn't — until a lazy-loaded relationship triggers a thousand extra queries, until a refactor breaks the API contract, until someone runs the app on a new machine and the schema is out of sync, until there's no authentication and anyone can hit your endpoints.
-
-This project is built around the decisions that prevent those failures: JWT-based stateless authentication, a strict four-layer architecture, DTOs that decouple the API contract from the domain model, centralized exception handling, Flyway for schema migrations, and environment-variable-driven config.
+Esse projeto resolve isso com uma estrutura fixa: quatro camadas (segurança, controller, service, repository), cada uma isolada da outra por uma interface. Autenticação via JWT sem sessão no servidor. DTOs separando o que a API expõe do que o banco de dados realmente guarda. Migrações de schema controladas pelo Flyway, então o banco nunca fica dessincronizado entre máquinas.
 
 ---
 
-## Quick Start
+## Como rodar
 
-**Prerequisites:** JDK 17+, Maven 3.8+, Docker
+**Você vai precisar de:** JDK 17+, Maven 3.8+ e Docker instalados.
 
 ```bash
 git clone https://github.com/Andrius-Anselmi/employee-role-management-api.git
 cd employee-role-management-api
 ```
 
-Start PostgreSQL via Docker:
+Suba o banco:
 
 ```bash
 docker compose up -d
 ```
 
-Set environment variables:
+Configure as variáveis de ambiente (ajuste os valores conforme seu setup):
 
 ```bash
 export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/gerenciamento
 export SPRING_DATASOURCE_USERNAME=admin
 export SPRING_DATASOURCE_PASSWORD=admin
-export EMPLOYEE_API_SECRET=your_jwt_secret_here
+export EMPLOYEE_API_SECRET=seu_jwt_secret_aqui
 ```
 
-Build and run:
+Suba a aplicação:
 
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
 
-API available at `http://localhost:8080`. No manual schema setup needed — Flyway runs migrations automatically on startup.
+A API sobe em `http://localhost:8080`. O Flyway cuida do schema sozinho na primeira execução — não precisa criar tabela manualmente.
 
-> **Note:** All endpoints except `/auth/registrar` and `/auth/login` require a valid JWT token.
+> Todo endpoint pede token, exceto `/auth/registrar` e `/auth/login`.
 
 ---
 
-## Architecture
+## Arquitetura
 
-Four layers. Each one knows nothing about the others except the interface it depends on.
+Cada requisição passa pelas mesmas quatro paradas, nessa ordem, e nenhuma camada pula a anterior:
 
 ```
-  HTTP Request
+  Requisição HTTP
        │
        ▼
 ┌─────────────────────────────────────────────┐
-│  Security Layer                             │
-│  JWT validation on every request            │
+│  Segurança                                  │
+│  Confere o JWT antes de deixar passar       │
 │  SecurityFilter + TokenService              │
 └────────────────────┬────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
-│  Controller Layer                           │
-│  Handles HTTP, status codes, routing        │
-│  Returns DTOs — never domain models         │
+│  Controller                                 │
+│  Só cuida de HTTP: rota, status, DTO        │
+│  Nunca expõe a entidade do banco            │
 └────────────────────┬────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
-│  Service Layer                              │
-│  All business rules live here               │
-│  Validates, orchestrates, transforms        │
-│  Throws typed exceptions on failure         │
+│  Service                                    │
+│  Aqui moram as regras de negócio            │
+│  Valida, decide, transforma dados           │
+│  Erro vira exceção tipada, não null         │
 └────────────────────┬────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
-│  Repository Layer                           │
-│  Spring Data JPA — optimized queries        │
-│  Schema managed by Flyway migrations        │
+│  Repository                                 │
+│  Spring Data JPA fala com o banco           │
+│  Schema é responsabilidade do Flyway        │
 └────────────────────┬────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
-│  PostgreSQL 15+ (Docker)                    │
-│  Source of truth — never exposed directly   │
+│  PostgreSQL 15+                             │
 └─────────────────────────────────────────────┘
 ```
 
 ---
 
-## Security
+## Autenticação
 
-Authentication is stateless and JWT-based. No sessions, no cookies.
-
-**Register** a user, **login** to receive a token, then include it in every request:
+Sem sessão, sem cookie — só token.
 
 ```
-Authorization: Bearer <your_token>
+POST /auth/registrar  →  cria o usuário, senha já sai em hash
+POST /auth/login      →  confere as credenciais, devolve o JWT
+Qualquer outra rota    →  exige Authorization: Bearer <token>
 ```
 
-The `SecurityFilter` intercepts every request, validates the token via `TokenService`, and sets the authentication context. Invalid or missing tokens result in `403 Forbidden`.
-
-Passwords are hashed with **BCrypt** before being stored — plain-text passwords never touch the database.
-
-```
-POST /auth/registrar  →  creates user, hashes password
-POST /auth/login      →  validates credentials, returns JWT
-All other routes      →  require valid Bearer token
-```
+O `SecurityFilter` intercepta a requisição antes dela chegar ao controller e confere o token com o `TokenService`. Se o token faltar ou for inválido, a resposta é `403`. Senha nunca é salva em texto puro — passa pelo BCrypt antes de tocar o banco.
 
 ---
 
-## API Reference
+## Endpoints
 
-### Auth
+### Autenticação
 
-| Method | Route | Description | Auth | Status |
-|--------|-------|-------------|------|--------|
-| `POST` | `/auth/registrar` | Register a new user | ❌ | `201` |
-| `POST` | `/auth/login` | Authenticate and receive JWT | ❌ | `200` |
+| Método | Rota | O que faz | Precisa de token? | Status |
+|--------|-------|-------------|:---:|--------|
+| `POST` | `/auth/registrar` | Cria um usuário novo | ❌ | `201` |
+| `POST` | `/auth/login` | Devolve o token de acesso | ❌ | `200` |
 
-### Employees
+### Funcionários
 
-| Method | Route | Description | Auth | Status |
-|--------|-------|-------------|------|--------|
-| `GET` | `/employees` | All employees | ✅ | `200` |
-| `GET` | `/employees/{id}` | Single employee by ID | ✅ | `200` / `404` |
-| `POST` | `/employees` | Create employee | ✅ | `201` |
-| `DELETE` | `/employees/{id}` | Remove employee | ✅ | `204` / `404` |
-| `PUT` | `/employees/{id}` | Update employee | ✅ | 🚧 in development |
+| Método | Rota | O que faz | Precisa de token? | Status |
+|--------|-------|-------------|:---:|--------|
+| `GET` | `/employees` | Lista todos | ✅ | `200` |
+| `GET` | `/employees/{id}` | Busca um específico | ✅ | `200` / `404` |
+| `POST` | `/employees` | Cadastra um novo | ✅ | `201` |
+| `DELETE` | `/employees/{id}` | Remove | ✅ | `204` / `404` |
+| `PUT` | `/employees/{id}` | Atualiza | ✅ | 🚧 ainda não |
 
-### Positions
+### Cargos
 
-| Method | Route | Description | Auth | Status |
-|--------|-------|-------------|------|--------|
-| `GET` | `/positions` | All positions | ✅ | `200` |
-| `GET` | `/positions/{id}` | Single position by ID | ✅ | `200` / `404` |
-| `POST` | `/positions` | Create position | ✅ | `201` |
-| `DELETE` | `/positions/{id}` | Remove position | ✅ | `204` / `404` |
-| `PUT` | `/positions/{id}` | Update position | ✅ | 🚧 in development |
-
----
-
-## Exception Handling
-
-Errors are handled globally via `GlobalExceptionHandler`. No try/catch blocks scattered across controllers.
-
-| Exception | HTTP Status | When |
-|-----------|-------------|------|
-| `NotFoundException` | `404 Not Found` | Resource not found by ID |
-
-Error messages are centralized in `ExceptionMessages` — one constant per message, changed in one place.
+| Método | Rota | O que faz | Precisa de token? | Status |
+|--------|-------|-------------|:---:|--------|
+| `GET` | `/positions` | Lista todos | ✅ | `200` |
+| `GET` | `/positions/{id}` | Busca um específico | ✅ | `200` / `404` |
+| `POST` | `/positions` | Cadastra um novo | ✅ | `201` |
+| `DELETE` | `/positions/{id}` | Remove | ✅ | `204` / `404` |
+| `PUT` | `/positions/{id}` | Atualiza | ✅ | 🚧 ainda não |
 
 ---
 
-## Seniority Levels
+## Erros
 
-Positions are classified by seniority via an enum, stored as a string in the database:
+Nada de `try/catch` espalhado pelos controllers — tudo passa pelo `GlobalExceptionHandler`, que intercepta a exceção e devolve o status certo.
+
+| Exceção | Status | Situação |
+|-----------|:---:|------|
+| `NotFoundException` | `404` | Você pediu um recurso que não existe |
+
+As mensagens ficam centralizadas em `ExceptionMessages`, então mudar o texto de um erro é editar um lugar só, não caçar string espalhada pelo código.
+
+---
+
+## Como funciona a senioridade
+
+Cada cargo carrega um nível de senioridade, guardado como enum no banco:
 
 ```
 JUNIOR · MID · SENIOR · TECH_LEAD
 ```
 
-The `@JsonCreator` annotation allows case-insensitive input — `"junior"`, `"Junior"`, and `"JUNIOR"` all work.
+Um `@JsonCreator` customizado deixa o campo aceitar o valor em qualquer combinação de maiúscula/minúscula — `"junior"`, `"Junior"` ou `"JUNIOR"` chegam ao mesmo lugar.
 
 ---
 
-## Design Decisions
+## Por trás das escolhas
 
-Every pattern here is a deliberate choice, not boilerplate.
+**JWT em vez de sessão** — cada requisição carrega sua própria prova de identidade. Não existe estado guardado no servidor, então dá pra escalar horizontalmente sem se preocupar em sincronizar sessão entre instâncias.
 
-**JWT Authentication** — Stateless token-based security. No server-side session state. Every request is self-contained and independently verifiable. Scales horizontally without coordination.
+**DTO na entrada e na saída** — a entidade JPA nunca aparece direto numa resposta. Isso significa que dá pra mudar uma coluna ou um relacionamento no banco sem quebrar o contrato que o cliente da API enxerga.
 
-**DTO encapsulation** — JPA entities are never serialized into API responses. DTOs give the API a stable contract independent of the database schema. Rename a column, change a relationship — the client never knows.
+**Handler de exceção centralizado** — `@RestControllerAdvice` pega qualquer exceção tipada lançada pelo service e converte pro status HTTP certo. O controller fica limpo, sem lógica de tratamento de erro misturada com lógica de rota.
 
-**Global exception handling** — `@RestControllerAdvice` intercepts typed exceptions and maps them to HTTP responses. Controllers and services stay clean. Error format is consistent across the entire API.
+**Mapper como classe utilitária** — a conversão entre entidade e DTO vive numa classe `@UtilityClass`: métodos estáticos, sem estado, sem instância. É função pura fazendo tradução de um formato pro outro.
 
-**Utility class mappers** — `@UtilityClass` enforces stateless, static-only mapper methods. No instantiation, no injection, no state — just pure transformation functions.
+**Flyway cuidando do schema** — cada mudança de schema é um arquivo SQL versionado. Isso evita o clássico "funciona na minha máquina, mas o banco de produção tá diferente".
 
-**Flyway migrations** — Schema changes are version-controlled SQL files. Every environment runs the exact same migrations in the exact same order. No more schema drift between machines.
-
-**12-Factor config** — Database URL, credentials, and JWT secret come from environment variables. The same artifact runs in any environment without modification.
+**Config fora do código** — URL do banco, credenciais e o segredo do JWT vêm de variável de ambiente. O mesmo artefato compilado roda em qualquer lugar sem precisar recompilar.
 
 ---
 
-## Roadmap
+## O que falta
 
-Features actively being developed:
-
-- [ ] `PUT /employees/{id}` — full employee update
-- [ ] `PUT /positions/{id}` — full position update
-- [ ] Filter employees by position, seniority and state
-- [ ] Pagination and sorting on list endpoints
+- [ ] `PUT /employees/{id}` completo
+- [ ] `PUT /positions/{id}` completo
+- [ ] Filtro de funcionários por cargo, senioridade e estado
+- [ ] Paginação e ordenação nas listagens
 
 ---
 
-## Tech Stack
+## Stack
 
-| Component | Technology | Why |
+| Peça | Tecnologia | Motivo da escolha |
 |-----------|-----------|-----|
-| Language | Java 17 LTS | Records, pattern matching, long-term support |
-| Framework | Spring Boot 4.x | Industry standard, powerful DI ecosystem |
-| Security | Spring Security + JWT (auth0) | Stateless, scalable authentication |
-| Persistence | Spring Data JPA + Hibernate | Clean abstraction over JDBC |
-| Database | PostgreSQL 15+ | Reliable, production-proven |
-| Container | Docker + Docker Compose | Reproducible environments |
-| Migrations | Flyway | Version-controlled schema |
-| Build | Maven 3.8+ | Predictable lifecycle |
+| Linguagem | Java 17 LTS | Records e suporte de longo prazo |
+| Framework | Spring Boot 4.x | Ecossistema maduro, DI resolve o resto |
+| Segurança | Spring Security + JWT (auth0) | Sem sessão, escala sem coordenação |
+| Persistência | Spring Data JPA + Hibernate | Menos SQL manual, mais produtividade |
+| Banco | PostgreSQL 15+ | Robusto e testado em produção |
+| Container | Docker + Docker Compose | Mesmo ambiente pra todo mundo |
+| Migrações | Flyway | Schema sob controle de versão |
+| Build | Maven 3.8+ | Ciclo de build previsível |
 
 ---
 
-## Project Structure
+## Organização do código
 
 ```
 src/
@@ -257,22 +235,22 @@ src/
     └── java/
         └── dev/java/management/
             ├── config/         # SecurityConfig, SecurityFilter, JWTuserData
-            ├── controller/     # HTTP layer — routes and status codes
-            ├── service/        # Business logic — rules and validation
-            ├── repository/     # Data access — JPA queries
-            ├── entity/         # Domain entities — source of truth
-            ├── enums/          # Seniority enum
-            ├── mapper/         # DTO transformation — @UtilityClass
-            ├── request/        # Inbound DTOs
-            ├── response/       # Outbound DTOs
-            └── exception/      # Custom exceptions + GlobalExceptionHandler
+            ├── controller/     # Rotas e status HTTP
+            ├── service/        # Regras de negócio
+            ├── repository/     # Consultas JPA
+            ├── entity/         # Entidades do banco
+            ├── enums/          # Enum de senioridade
+            ├── mapper/         # Conversão entidade ↔ DTO
+            ├── request/        # DTOs de entrada
+            ├── response/       # DTOs de saída
+            └── exception/      # Exceções + handler global
     └── resources/
-        └── db/migration/       # Flyway SQL migrations (V1__, V2__...)
+        └── db/migration/       # Scripts do Flyway (V1__, V2__...)
 ```
 
 ---
 
-## Database Schema
+## Modelo de dados
 
 ```
 ┌──────────────┐         ┌───────────────┐
@@ -298,18 +276,14 @@ src/
 
 ---
 
-## Contributing
+## Licença
 
-Issues and PRs welcome. If you're adding a feature, open the service layer first — business logic belongs there, not in controllers or repositories.
-
-## License
-
-MIT — see [LICENSE](./LICENSE).
+MIT — veja [LICENSE](./LICENSE).
 
 ---
 
 <div align="center">
 
-Built by [Andrius Anselmi](https://github.com/Andrius-Anselmi) · [LinkedIn](https://www.linkedin.com/in/andrius-anselmi)
+Feito por [Andrius Anselmi](https://github.com/Andrius-Anselmi) · [LinkedIn](https://www.linkedin.com/in/andrius-anselmi)
 
 </div>
